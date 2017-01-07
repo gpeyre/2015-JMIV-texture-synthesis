@@ -1,0 +1,418 @@
+\section{Numerical Results}
+\label{sec:results}
+
+\newcommand{\img}[3][]{\includegraphics[width=#2\textwidth,#1]{#3}}
+\newcommand{\imsep}[0]{\!\!\!\!\!\!\!&}
+
+
+This section provides numerical results of our synthesis algorithm.
+We illustrate the influence of each term of the energy function~\eqref{eq:cost-function} and of the parameters.
+We compare our results to the most classical synthesis methods relying on statistical constraints.
+We also compare the innovation capacity of the approach to that of exemplar-based methods.
+
+When not explicitly specified, the extracted patches are of size $\tau=12$ and are centered on a grid with a step size of $\Delta=4$ pixels.
+The synthesis is performed over $J=3$ scales and the terms of the functional are given the same weight\footnote{We recall the normalization $\tilde\wpatch=\wpatch Z$ with $Z = \lceil\tau/\Delta\rceil^2$} $\whist=\wspec=\tilde\wpatch=1$.
+The dictionary is made of $N=384$ atoms and the sparsity is set to $S=4$ coefficients per patch.
+
+Figure~\ref{fig:results} shows several results of our algorithm for textures from the VisTex~\cite{pickard1995vistex} database.
+The sand and water textures are well reproduced thanks to the spectrum constraints.
+The regularity of quasi-periodic textures is ensured by both the spectrum constraint and the multi-scale scheme.
+The sharpness of the edges and the geometrical patterns are handled by the sparse decomposition of the patches into the adaptive dictionary.
+
+The last row of Fig.~\ref{fig:results} shows difficult examples to illustrate the limitations and the failure cases of our algorithm.
+Repetition of small sharp objects ---like the pills texture--- cannot be represented by our approach: the sparsity of the patches cannot handle several objects in a patch, and the spectrum constraint is not able to create sharp objects.
+A mixture of large scale patterns and small details ---like the tiles or the pumpkins--- are also difficult to generate because of the patch constraint: small patches cannot deal with large structures, whereas large patches cannot handle small details because of the sparsity constraint.
+
+\begin{figure*}
+  \centering
+  \begin{tabular}{cccccc}
+    % Our
+      \img{.19}{our/default/Sand-01}\imsep
+      \img{.19}{our/default/Water-05}\imsep
+      \img{.19}{our/default/Fabric-13}\imsep
+      \img{.19}{our/default/Fabric-00}\imsep
+      \img{.19}{our/default/Fabric-10} \\
+    % Input
+      \raisebox{3mm}{\img{.095}{input/Sand-01}}\hspace{.11em}\img{.095}{input/Flowers-04}\imsep
+      \raisebox{3mm}{\img{.095}{input/Water-05}}\hspace{.11em}\img{.095}{input/Clouds-01}\imsep
+      \raisebox{3mm}{\img{.095}{input/Fabric-13}}\hspace{.11em}\img{.095}{input/Sand-06}\imsep
+      \raisebox{3mm}{\img{.095}{input/Fabric-00}}\hspace{.11em}\img{.095}{input/Bark-11}\imsep
+      \raisebox{3mm}{\img{.095}{input/Fabric-10}}\hspace{.11em}\img{.095}{input/Brick-00} \\
+    % Our
+      \img{.19}{our/default/Flowers-04}\imsep
+      \img{.19}{our/default/Clouds-01}\imsep
+      \img{.19}{our/default/Sand-06}\imsep
+      \img{.19}{our/default/Bark-11}\imsep
+      \img{.19}{our/default/Brick-00} \\ \\
+    % Our
+      \img{.19}{our/default/Bark-03}\imsep
+      \img{.19}{our/default/Fabric-11}\imsep
+      \img{.19}{our/default/Brick-07}\imsep
+      \img{.19}{our/default/Flowers-00}\imsep
+      \img{.19}{our/default/Brick-02} \\
+    % Input
+      \raisebox{3mm}{\img{.095}{input/Bark-03}}\hspace{.11em}\img{.095}{input/Food-08}\imsep
+      \raisebox{3mm}{\img{.095}{input/Fabric-11}}\hspace{.11em}\img{.095}{input/Brick-05}\imsep
+      \raisebox{3mm}{\img{.095}{input/Brick-07}}\hspace{.11em}\img{.095}{input/Brick-04}\imsep
+      \raisebox{3mm}{\img{.095}{input/Flowers-00}}\hspace{.11em}\img{.095}{input/Food-10}\imsep
+      \raisebox{3mm}{\img{.095}{input/Brick-02}}\hspace{.11em}\img{.095}{input/Tile-04} \\
+    % Our
+      \img{.19}{our/default/Food-08}\imsep
+      \img{.19}{our/default/Brick-05}\imsep
+      \img{.19}{our/default/Brick-04}\imsep
+      \img{.19}{our/default/Food-10}\imsep
+      \img{.19}{our/default/Tile-04}
+  \end{tabular}
+  \caption[Synthesis results]{
+    Result of our algorithm (big images) for several exemplar (small images).
+    The last examples are the most difficult because they simultaneously exhibit many small sharp details and large geometrical structures.
+  }
+  \label{fig:results}
+\end{figure*}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Comparison}
+
+\subsubsection{Statistical Methods}
+
+We first show a comparison with other statistical methods that we now recall.
+
+The approach of Heeger and Bergen~\cite{Heeger1995} imposes the histogram of the image and also the distributions of the coefficient of a multi-scale decomposition~\cite{simoncelli1992shiftable}, scale by scale.
+An alternated projection method is used: the constraints are imposed turn by turn.
+As explained in~\cite{Heeger1995}, this should not be iterated more than 4 or 5 times because of convergence issues.
+The decomposition being based on gabor-like filters, this method is not adapted to synthesize edges or structures.
+This method may be tested online using the {\it IPOL} demo from~\cite{ipol:heeger}.
+
+The method from Portilla and Simoncelli~\cite{portilla2000parametric} is the state of the art among statistical methods, to the best of our know\-ledge.
+Several constraints on the coefficients of the multi-scale decomposition~\cite{simoncelli1992shiftable} are imposed: mean, variance, and other moments.
+The main difference with~\cite{Heeger1995} is that correlations are imposed between neighbor coefficients, where\-as~\cite{Heeger1995} only considers marginals at each scale and orientation.
+Some edges and sharp structures can be synthesized thanks to these dependencies.
+Let us emphasize that, in contrast, the method presented in this paper does not impose dependency between coefficients corresponding to different atoms in the dictionary.
+However, we used an {\it adaptive} dictionary learned on the exemplar, whereas~\cite{Heeger1995,portilla2000parametric} use a non-adaptive pyramid transform.
+
+In~\cite{galerne2011random}, synthesis is performed by preserving the amplitude of the Fourier spectrum and by randomly shuffling the phases of the Fourier Transform.
+This is strictly equivalent to generating a white noise and projecting it on our spectrum constraint $\cspec$.
+This approach is fast and is well adapted to smooth textures such as sand or a cloudy sky, but cannot produce edges.
+This method may be tested online using the {\it IPOL} demo from~\cite{ipol:galerne}.
+
+The algorithm of~\cite{peyre2009sparse} is the first applying sparse decomposition of patches to texture synthesis.
+A redundant dictionary is learned beforehand on an exemplar of the texture.
+The synthesis is then performed from a white noise image by alternating histogram transfer and sparse coding into the dictionary.
+This is equivalent to alternated projection on our sets $\chist$ and $\cpatch'$ where $\cpatch'$ has no constraint on the number of usage $F^n$ of the elements in the dictionary.
+% This algorithm was the origin of our work.
+
+In Fig.~\ref{fig:comparison}, we show several synthesis examples using our approach and the statistical methods recalled in this section.
+As we can see, the proposed approach has the best ability to reproduce both structures and fine details of textures.
+
+\begin{figure*}
+  \centering
+  \img{.095}{input/Sand-01}
+  \img{.095}{input/Clouds-01}
+  \img{.095}{input/Fabric-02}
+  \img{.095}{input/Brick-02}
+  \img{.095}{input/Bark-05} \\
+  Input images \\~\\
+  \newcommand{\imgCompared}[1]{
+    \img{.19}{our/default/#1}\imsep
+    \img{.19}{portilla/#1}\imsep
+    \img{.19}{heeger/#1}\imsep
+    \img{.19}{galerne/#1}\imsep
+    \img{.19}{peyre/#1} \\
+  }
+  \begin{tabular}{ccccc}
+    \imgCompared{Sand-01}
+    \imgCompared{Clouds-01}
+    \imgCompared{Fabric-02}
+    \imgCompared{Brick-02}
+    \imgCompared{Bark-05}
+    Ours & \cite{portilla2000parametric} & \cite{Heeger1995}
+      & \cite{galerne2011random} & \cite{peyre2009sparse}
+  \end{tabular}
+  \caption[Comparison with other methods]{
+    We present synthesis results using our approach and other statistical methods.
+    From left to right:
+    our approach penalizes a deviation of histogram, spectrum, and sparse approximation of patches;
+    \cite{portilla2000parametric} imposes statistics including correlations in a wavelet frame;
+    \cite{Heeger1995} imposes the image histogram and wavelet coefficient distributions (scale by scale);
+    \cite{galerne2011random} preserves only the spectrum modulus;
+    \cite{peyre2009sparse} imposes the image histogram and patch sparsity
+  }
+  \label{fig:comparison}
+\end{figure*}
+
+
+%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Copy-Paste Methods}
+
+Figure~\ref{fig:efros} shows two synthesis results obtained with the Efros and Leung algorithm~\cite{efros1999texture}, using the IPOL accelerated implementation~\cite{aguerrebere2013exemplar}.
+The synthesis is performed by choosing and copying pixels one by one from the exemplar.
+The concept of this algorithm may be encountered in a large number of more recent algorithms~\cite{Wei2009}.
+
+Figure~\ref{fig:efros} also displays on the bottom a map of coordinates which represents the location in the exemplar of the synthesized pixels.
+The structure of the synthesized image is clearly visible on these maps: the synthesis is made of a tiling from the exemplar even if pixels are copied one by one.
+The results of such copy-paste methods are often visually better than those obtained using statistical methods, but their innovation capacity is much lower.
+In contrast, results from our approach (see Fig.~\ref{fig:results}) include no repetition from the input image.
+
+\begin{figure}
+  \centering
+  \img{.095}{input/Sand-06}\hspace{4.5em}
+  \img{.095}{input/Brick-02}\\ \vspace{1mm}
+  \img{.19}{efros/img/Sand-06}
+  \img{.19}{efros/img/Brick-02}\\
+  \img{.19}{efros/map/Sand-06}
+  \img{.19}{efros/map/Brick-02}\\
+  \caption[Comparison with a copy-paste method]{
+    Results from the pixel-by-pixel copy-paste algorithm~\cite{efros1999texture} (middle);
+    the coordinate maps (bottom) show that the results are tilings from the exemplars (top), even if the synthesis is performed pixel after pixel
+  }
+  \label{fig:efros}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Detailed Analysis of the Synthesis Functional}
+
+The influence of each of the three terms of the function~\eqref{eq:cost-function} is illustrated in Fig.~\ref{fig:terms}.
+The effect of each constraint is demonstrated by suppressing one of them while preserving the two others.
+This experiment yields the following observations.
+
+\paragraph{The patch decomposition} term relies on the adaptive dictionary, which is good at representing geometrical features.
+The syntheses produced without this constraint have little geometrical content: edges and sharp details are completely lost.
+
+On the other hand, a sparse decomposition cannot represent granularities of textures like sand or rocks.
+This is due to the noisy aspect of such textures which cannot be sparsely represented.
+It is approximated by an almost-constant value and the texture generated is too smooth when using only histogram + patch sparsity terms.
+
+\paragraph{The spectrum} term acts as a complement of the patch sparsity term.
+It is powerful to represent granularities, as may be seen on the sand example.
+However, the spectrum cannot produce any edge, as illustrated by the synthesis with only the spectrum and histogram terms.
+Preserving only the spectrum is proposed and illustrated in~\cite{galerne2011random}.
+
+We also remark that the low frequencies imposed by the spectrum enhance the regularity of the texture.
+Without this constraint, the results have some brighter or darker regions, whereas the results using the spectrum are more stationary.
+
+\paragraph{The histogram} term deals with the contrast and the color faithfulness of the result.
+Note that the patch decomposition alone has no control on the patch dynamic.
+
+\begin{figure*}
+  \centering
+  \newcommand{\imgWeightsBin}[1]{
+    \raisebox{7mm}{\img{.095}{input/#1}}&
+    \img{.19}{our/weights/1-1-1-raw/#1}&
+    \img{.19}{our/weights/0-1-1/#1}\imsep
+    \img{.19}{our/weights/1-0-1/#1}\imsep
+    \img{.19}{our/weights/1-1-0/#1} \\
+  }
+  \begin{tabular}{ccccc}
+    \imgWeightsBin{Bark-03}
+    \imgWeightsBin{Fabric-10}
+    \imgWeightsBin{Fabric-11}
+    \imgWeightsBin{Sand-05}
+    Input & Synthesis (w/o post-process) & No histogram & No spectrum & No patch constraint
+  \end{tabular}
+  \caption[Influence of each term of the synthesis function~\eqref{eq:cost-function}]{
+    Synthesis results when dropping one of the three terms.
+    The histogram term prevents from a loss of contrast.
+    The spectrum term spatially regularizes the synthesis and generates granularity.
+    The patch decomposition term handles sharp edges.
+    Note that the post-process is not performed to allow a fair comparison of each term.
+  }
+  \label{fig:terms}
+\end{figure*}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Influence of the Parameters}
+
+This section illustrates the influence of the parameters of our synthesis algorithm:
+the size $\tau\times\tau$ of the patches, the number $J$ of scales, the weights $\alpha$ of each term of the function, and the sparsity factor $S$.
+
+
+%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Patch Size and Multi-scale}
+
+Figure~\ref{fig:scales} illustrates the influence of the multi-scale process and of the size of the patches.
+
+The effect of the multi-scale is clearly visible on all the results: it increases the spatial coherence of the texture.
+In the case of quasi-periodic textures with small patterns, it increases the regularity of the texture:
+the patterns are more regularly distributed.
+In the case of textures with large patterns, it produces large structures such as long and continuous edges.
+This is not possible with the single scale synthesis.
+
+The size of the patches must be roughly the size of the elements in the texture.
+A patch size of $12\times12$ pixels is a good compromise on the VisTex database.
+
+If the patches are too small compared to the patterns of the texture, the pattern cannot be well synthesized and suffer from geometrical distortions.
+On the contrary, using too big patches makes the sparse approximation into $D_0$ rougher and the small details are lost.
+Moreover, bigger patches imply more coefficients, a bigger dictionary, and less sparsity: the sparse decomposition algorithm becomes far slower and less accurate (we recall that we use a heuristic since the problem is NP-hard).
+
+\begin{figure*}
+  \centering
+  \newcommand{\imgScales}[1]{
+    \raisebox{7mm}{\img{.095}{input/#1}}&
+    \img{.19}{our/scales/1/#1}\imsep
+    \img{.19}{our/scales/2/#1}\imsep
+    \img{.19}{our/scales/3/#1} \\
+  }
+  \begin{tabular}{cccc}
+    \imgScales{Fabric-00}
+    \imgScales{Bark-03}
+    \imgScales{Fabric-12}
+    Input & $1$ scale & $2$ scales & $3$ scales
+  \end{tabular}
+  \medskip
+
+  \newcommand{\imgPatchSize}[1]{
+    \raisebox{7mm}{\img{.095}{input/#1}}&
+    \img{.19}{our/patch-size/8/#1}\imsep
+    \img{.19}{our/patch-size/12/#1}\imsep
+    \img{.19}{our/patch-size/16/#1} \\
+  }
+  \begin{tabular}{cccc}
+    \imgPatchSize{Fabric-00}
+    \imgPatchSize{Bark-03}
+    \imgPatchSize{Fabric-12}
+    Input & $8\times8$ px & $12\times12$ px & $16\times16$ px
+  \end{tabular}
+
+  \caption[Influence of the multi-scale and the patch size]{
+    Synthesis results with different numbers of scales (top) and different sizes of patches (bottom).
+    Multi-scale ensures spatial coherency of the texture.
+    The patches must roughly have the size of the patterns of the texture.
+  }
+  \label{fig:scales}
+\end{figure*}
+
+
+%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Weights of the Function}
+
+Figure~\ref{fig:weights} shows results obtained when varying the weighting of the different terms in the functional~\eqref{eq:cost-function} instead of choosing $\whist = \wspec = \tilde\wpatch = 1$.
+
+This default choice provides reasonable results for most of the textures, but the weights can be tuned for each texture to be synthesized.
+We did not find an easy way to automatically compute a good set of weights for each texture, although this would be useful in practice.
+
+The synthesis given in Fig.~\ref{fig:weights} are obtained, from left to right, with the following settings of $\wspec/\tilde\wpatch$ : $5/1$, $3/1$, $1/1$, $1/3$, and $1/5$, and always with $\whist = (\wspec+\tilde\wpatch)/2$.
+Textures with large structures, long edges, or geometrical elements, are better synthesized with a higher weight for the patch sparsity term.
+On the contrary, a texture without sharp nor structured elements but with a granular aspect is better reproduced with more weight on the spectrum term.
+In the extreme case of a texture without any geometrical element, the patch term can be removed: see the examples of the sand texture in Fig.~\ref{fig:comparison} with~\cite{galerne2011random} (spectrum only) or in Fig.~\ref{fig:terms} without the patches sparsity term (spectrum and histogram).
+
+The intermediate cases (a granular texture with some sharp patterns) are well synthesized with a balanced weighting $\wspec = \tilde\wpatch$.
+
+\begin{figure*}
+  \centering
+  \img{.095}{input/Misc-01}
+  \img{.095}{input/Flowers-00}
+  \img{.095}{input/Bark-10}
+  \img{.095}{input/Stone-02}
+  \img{.095}{input/Fabric-12} \\
+  Input images \\~\\
+  \newcommand{\imgWeights}[1]{
+    \img{.19}{our/weights/3-5-1/#1}\imsep
+    \img{.19}{our/weights/2-3-1/#1}\imsep
+    \img{.19}{our/default/#1}\imsep
+    \img{.19}{our/weights/2-1-3/#1}\imsep
+    \img{.19}{our/weights/3-1-5/#1} \\
+  }
+  \begin{tabular}{ccccc}
+    \imgWeights{Misc-01}
+    \imgWeights{Flowers-00}
+    \imgWeights{Bark-10}
+    \imgWeights{Stone-02}
+    \imgWeights{Fabric-12}
+    More spectrum & $\longleftarrow$ & Balanced & $\longrightarrow$ & More patch sparsity
+  \end{tabular}
+  \caption[Influence of the weights of the function]{
+    Synthesis results with different weighting: more spectrum on the left, more patch sparsity on the right.
+    Textures with few geometrical content (top) are better reproduced with more spectrum;
+    textures with large structures (bottom) need more patches sparsity.
+  }
+  \label{fig:weights}
+\end{figure*}
+
+
+%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Sparsity}
+
+Figure~\ref{fig:sparsity} illustrates the effect of the sparsity parameter $S$.
+
+A larger parameter $S$ means that the patches are a linear combination of more elements from the dictionary $D_0$.
+In the case of texture synthesis,
+% a low value of $S$ ensures a good usage of the atoms of the dictionary, whereas
+a large value of $S$ allows the superposition of several atoms and create artifacts, particularly visible on the example in Fig.~\ref{fig:sparsity}.
+
+\begin{figure*}
+  \centering
+  \begin{tabular}{ccccc}
+    \raisebox{7mm}{\img{.095}{input/Fabric-12}}&
+    \img{.19}{our/sparsity/2/Fabric-12}\imsep
+    \img{.19}{our/sparsity/4/Fabric-12}\imsep
+    \img{.19}{our/sparsity/6/Fabric-12}\imsep
+    \img{.19}{our/sparsity/8/Fabric-12} \\
+    Input & $S=2$ & $S=4$ & $S=6$ & $S=8$
+  \end{tabular}
+  \caption[Influence of the sparsity factor]{
+    Synthesis results with different sparsity $S=2,4,6,8$.
+    His example illustrate the artifacts caused by the superposition of several atoms for larger $S$.
+  }
+  \label{fig:sparsity}
+\end{figure*}
+
+On the contrary, the smallest value $S=1$ imposes each patch to be proportional to $1$ atom from $D_0$.
+Imposing $S=1$ and binary weights $W\in\setof{0,1}^{N\times K}$ is an interesting alternative.
+It forces each patch to be equal to an atom of the dictionary.
+The normalization constraint $\norm{d_n}_2\leq1$ is no longer necessary and should be removed in this case.
+
+Within this setting, the learning stage~\eqref{eq:dico-learning} becomes a $K$-means algorithm.
+The decomposition Algorithm~\ref{algo:greedy-sparse} becomes a nearest-neighbor classification, with a constraint on the number $F^n$ of use of each atom.
+The dictionary is in this case a resampled and weighted version of the set of all the patches in the original image.
+It is more compact because it contains far less patches than the image.
+The nearest-neigh\-bor search would thus be far faster than an exhaustive search.
+Observe that in the case of an exhaustive patch search, the synthesis method is similar to the ``Texture Optimization'' algorithm~\cite{kwatra2005texture} and to the video inpainting approach of Wexler et al.~\cite{wexler2004space}.
+
+
+%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Other Settings}
+
+Figure~\ref{fig:misc} shows the effect of several options of our method.
+
+
+\paragraph{The set of patches} $\Pi u$ can be subsampled to improve the speed of the algorithm as explained in Sect.~\ref{sub:implementation}.
+
+We only consider the patches lying on a grid of step $\Delta$ with $\Delta>1$.
+This leads to a mosaic artifact: it appears because the borders of the patches becomes visible.
+To avoid this artifact, we use random translations of the grid at each iteration: the border of the patches are not always at the same relative position, and the mosaic artifact disappears.
+Figure~\ref{fig:misc} shows that using $\Delta=4$ with random offset gives a similar result than when using $\Delta=1$, while being $16$ times faster.
+
+\paragraph{Alternated projections} on the sets $\chist$, $\cspec$, and $\cpatch$ (Sect.~\ref{sub:avg-projections}) leads to the images in Fig.~\ref{fig:misc} (right).
+The result is quite similar to our result ($2^\text{nd}$ image from the right) but has some artifacts: some small edges appear, and some grain is missing.
+More generally, the results obtained using this alternated projection algorithm are sometimes similar to ours, and sometimes suffer from several kinds of artifacts, which point out the bad convergence of that method.
+
+\paragraph{The post-processing} step, that is the final projection on $\cspec$ and then $\chist$, removes residual smoothness of the texture, due to the patch sparsity constraint.
+This is visible in Fig.~\ref{fig:misc} ($3^\text{rd}$ and $4^\text{th}$ images from the left).
+
+\begin{figure*}
+  \centering
+  \img{.095}{input/Sand-05} \\
+  Input image \\~\\
+  \begin{tabular}{ccccc}%
+    \img{.19}{our/others/Sand-05/raw-12-1}\imsep
+    \img{.19}{our/others/Sand-05/raw-12-4}\imsep
+    \img{.19}{our/others/Sand-05/raw-12-4-t}\imsep
+    \img{.19}{our/others/Sand-05/final-12-4-t}\imsep
+    \img{.19}{our/others/Sand-05/PHSH}\\
+    $\Delta=1$, & $\Delta=4$, & $\Delta=4$, & Same, with & Same, using \\
+    no post-processing & constant offset & Random offsets & post-processing & alternated projections
+  \end{tabular}
+  \caption[Influence of other settings]{
+    Synthesis results with different settings.
+    From left to right:
+    using all the patches ($\Delta=1$) without post-processing (the final projection on $\cspec$ and then $\chist$);
+    using only the patches on a grid of step $\Delta=4$;
+    adding random translations of the grid at each iteration;
+    adding the post-processing step;
+    comparison with alternated projections instead of our gradient descent scheme.
+  }
+  \label{fig:misc}
+\end{figure*}

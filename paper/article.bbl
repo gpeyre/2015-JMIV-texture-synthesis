@@ -1,0 +1,207 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{DOI~\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{DOI~\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem{aguerrebere2013exemplar}
+Aguerrebere, C., Gousseau, Y., Tartavel, G.: {Exemplar-based Texture Synthesis:
+  the Efros-Leung Algorithm}.
+\newblock {Image Processing On Line} \textbf{2013}, 213--231 (2013)
+
+\bibitem{aharon2006ksvd}
+Aharon, M., Elad, M., Bruckstein, A.: {K-SVD}: An algorithm for designing
+  overcomplete dictionaries for sparse representation.
+\newblock Signal Processing, IEEE Transactions on \textbf{54}(11), 4311--4322
+  (2006)
+
+\bibitem{bauschke2002phase}
+Bauschke, H.H., Combettes, P.L., Luke, D.R.: Phase retrieval, error reduction
+  algorithm, and fienup variants: a view from convex optimization.
+\newblock JOSA A \textbf{19}(7), 1334--1345 (2002)
+
+\bibitem{ipol:heeger}
+Briand, T., Vacher, J., Galerne, B., Rabin, J.: The heeger and bergen pyramid
+  based texture synthesis algorithm.
+\newblock Image Processing On Line, preprint  (2013)
+
+\bibitem{cross1983markov}
+Cross, G., Jain, A.: Markov random field texture models.
+\newblock Pattern Analysis and Machine Intelligence, IEEE Transactions on
+  \textbf{5}(1), 25--39 (1983)
+
+\bibitem{desolneux2012compact}
+Desolneux, A., Moisan, L., Ronsin, S.: A compact representation of random phase
+  and gaussian textures.
+\newblock In: Acoustics, Speech and Signal Processing (ICASSP), 2012 IEEE
+  International Conference on, pp. 1381--1384. IEEE (2012)
+
+\bibitem{efros2001image}
+Efros, A., Freeman, W.: Image quilting for texture synthesis and transfer.
+\newblock In: Proceedings of the 28th annual conference on Computer graphics
+  and interactive techniques, pp. 341--346. ACM (2001)
+
+\bibitem{efros1999texture}
+Efros, A., Leung, T.: Texture synthesis by non-parametric sampling.
+\newblock In: Computer Vision, 1999. The Proceedings of the Seventh IEEE
+  International Conference on, vol.~2, pp. 1033--1038. IEEE (1999)
+
+\bibitem{elad2006image}
+Elad, M., Aharon, M.: Image denoising via learned dictionaries and sparse
+  representation.
+\newblock In: Computer Vision and Pattern Recognition, 2006 IEEE Computer
+  Society Conference on, vol.~1, pp. 895--900. IEEE (2006)
+
+\bibitem{engan1999method}
+Engan, K., Aase, S., Hakon~Husoy, J.: Method of optimal directions for frame
+  design.
+\newblock In: Acoustics, Speech, and Signal Processing, 1999. Proceedings.,
+  1999 IEEE International Conference on, vol.~5, pp. 2443--2446. IEEE (1999)
+
+\bibitem{ipol:galerne}
+Galerne, B., Gouseau, Y., Morel, J.M.: Micro-texture synthesis by phase
+  randomization.
+\newblock Image Processing On Line  (2011)
+
+\bibitem{galerne2011random}
+Galerne, B., Gousseau, Y., Morel, J.: Random phase textures: Theory and
+  synthesis.
+\newblock Image Processing, IEEE Transactions on \textbf{20}(1), 257--267
+  (2011)
+
+\bibitem{galerne2012gabor}
+Galerne, B., Lagae, A., Lefebvre, S., Drettakis, G.: Gabor noise by example.
+\newblock ACM Transactions on Graphics (TOG) \textbf{31}(4), 73 (2012)
+
+\bibitem{Heeger1995}
+Heeger, D., Bergen, J.: Pyramid-based texture analysis/synthesis.
+\newblock In: SIGGRAPH '95, pp. 229--238 (1995)
+
+\bibitem{julesz1962visual}
+Julesz, B.: Visual pattern discrimination.
+\newblock Information Theory, IRE Transactions on \textbf{8}(2), 84--92 (1962)
+
+\bibitem{Julesz1981}
+Julesz, B.: A theory of preattentive texture discrimination based on
+  first-order statistics of textons.
+\newblock Biological Cybernetics \textbf{41}(2), 131--138 (1981)
+
+\bibitem{kuhn1955hungarian}
+Kuhn, H.: The hungarian method for the assignment problem.
+\newblock Naval research logistics quarterly \textbf{2}(1-2), 83--97 (1955)
+
+\bibitem{kwatra2005texture}
+Kwatra, V., Essa, I., Bobick, A., Kwatra, N.: Texture optimization for
+  example-based synthesis.
+\newblock In: ACM Transactions on Graphics (TOG), vol.~24, pp. 795--802. ACM
+  (2005)
+
+\bibitem{lagae2010state}
+Lagae, A., Lefebvre, S., Cook, R., Derose, T., Drettakis, G., Ebert, D., Lewis,
+  J., Perlin, K., Zwicker, M.: State of the art in procedural noise functions.
+\newblock EG 2010-State of the Art Reports  (2010)
+
+\bibitem{lagae2009procedural}
+Lagae, A., Lefebvre, S., Drettakis, G., Dutr{\'e}, P.: Procedural noise using
+  sparse gabor convolution.
+\newblock In: ACM Transactions on Graphics (TOG), vol.~28, p.~54. ACM (2009)
+
+\bibitem{lefebvre2005parallel}
+Lefebvre, S., Hoppe, H.: Parallel controllable texture synthesis.
+\newblock ACM Transactions on Graphics (TOG) \textbf{24}(3), 777--786 (2005)
+
+\bibitem{mallat1993matching}
+Mallat, S., Zhang, Z.: Matching pursuits with time-frequency dictionaries.
+\newblock Signal Processing, IEEE Transactions on \textbf{41}(12), 3397--3415
+  (1993)
+
+\bibitem{moisan2011periodic}
+Moisan, L.: Periodic plus smooth image decomposition.
+\newblock Journal of Mathematical Imaging and Vision \textbf{39}(2), 161--179
+  (2011)
+
+\bibitem{olshausen1996natural}
+Olshausen, B., Field, D.: Natural image statistics and efficient coding*.
+\newblock Network: computation in neural systems \textbf{7}(2), 333--339 (1996)
+
+\bibitem{perlin1985image}
+Perlin, K.: An image synthesizer.
+\newblock SIGGRAPH Comput. Graph. \textbf{19}(3), 287--296 (1985)
+
+\bibitem{peyre2009sparse}
+Peyr{\'e}, G.: Sparse modeling of textures.
+\newblock Journal of Mathematical Imaging and Vision \textbf{34}(1), 17--31
+  (2009)
+
+\bibitem{pickard1995vistex}
+Pickard, R., Graszyk, C., Mann, S., Wachman, J., Pickard, L., Campbell, L.:
+  Vistex database.
+\newblock Media Lab., MIT, Cambridge, Massachusetts  (1995)
+
+\bibitem{pitie2005n}
+Pitie, F., Kokaram, A., Dahyot, R.: N-dimensional probability density function
+  transfer and its application to color transfer.
+\newblock In: Computer Vision, 2005. ICCV 2005. Tenth IEEE International
+  Conference on, vol.~2, pp. 1434--1439. IEEE (2005)
+
+\bibitem{portilla2000parametric}
+Portilla, J., Simoncelli, E.: A parametric texture model based on joint
+  statistics of complex wavelet coefficients.
+\newblock International Journal of Computer Vision \textbf{40}(1), 49--70
+  (2000)
+
+\bibitem{rabin2012wasserstein}
+Rabin, J., Peyr{\'e}, G., Delon, J., Bernot, M.: Wasserstein barycenter and its
+  application to texture mixing.
+\newblock Scale Space and Variational Methods in Computer Vision pp. 435--446
+  (2012)
+
+\bibitem{ramanarayanan2007constrained}
+Ramanarayanan, G., Bala, K.: Constrained texture synthesis via energy
+  minimization.
+\newblock Visualization and Computer Graphics, IEEE Transactions on
+  \textbf{13}(1), 167--178 (2007)
+
+\bibitem{simoncelli1992shiftable}
+Simoncelli, E., Freeman, W., Adelson, E., Heeger, D.: Shiftable multiscale
+  transforms.
+\newblock Information Theory, IEEE Transactions on \textbf{38}(2), 587--607
+  (1992)
+
+\bibitem{tartavel2013constrained}
+Tartavel, G., Gousseau, Y., Peyr{\'e}, G.: Constrained sparse texture
+  synthesis.
+\newblock Proceedings of SSVM'13  (2013)
+
+\bibitem{tropp2004greed}
+Tropp, J.: Greed is good: Algorithmic results for sparse approximation.
+\newblock Information Theory, IEEE Transactions on \textbf{50}(10), 2231--2242
+  (2004)
+
+\bibitem{Wei2009}
+Wei, L., Lefebvre, S., Kwatra, V., Turk, G.: State of the art in example-based
+  texture synthesis.
+\newblock In: Eurographics 2009, State of the Art Report, EG-STAR. Eurographics
+  Association (2009)
+
+\bibitem{wei2000fast}
+Wei, L., Levoy, M.: Fast texture synthesis using tree-structured vector
+  quantization.
+\newblock In: SIGGRAPH '00, pp. 479--488. ACM Press/Addison-Wesley Publishing
+  Co. (2000)
+
+\bibitem{wexler2004space}
+Wexler, Y., Shechtman, E., Irani, M.: Space-time video completion.
+\newblock In: Computer Vision and Pattern Recognition, 2004. CVPR 2004.
+  Proceedings of the 2004 IEEE Computer Society Conference on, vol.~1, pp.
+  I--120. IEEE (2004)
+
+\bibitem{xia2012compact}
+Xia, G.S., Ferradans, S., Peyr{\'e}, G., Aujol, J.F.: Compact representations
+  of stationary dynamic textures.
+\newblock In: Image Processing (ICIP), 2012 19th IEEE International Conference
+  on, pp. 2993--2996. IEEE (2012)
+
+\end{thebibliography}

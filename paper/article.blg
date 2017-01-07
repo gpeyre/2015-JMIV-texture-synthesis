@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2012)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: article.aux
+The style file: spmpsci.bst
+Database file #1: bibliography.bib
+Warning--can't use both volume and number fields in kwatra2005texture
+Warning--can't use both volume and number fields in lagae2009procedural
+You've used 38 entries,
+            2946 wiz_defined-function locations,
+            827 strings with 10725 characters,
+and the built_in function-call counts, 34947 in all, are:
+= -- 4379
+> -- 606
+< -- 20
++ -- 443
+- -- 212
+* -- 1476
+:= -- 3144
+add.period$ -- 50
+call.type$ -- 38
+change.case$ -- 246
+chr.to.int$ -- 0
+cite$ -- 40
+duplicate$ -- 4016
+empty$ -- 2096
+format.name$ -- 243
+if$ -- 7301
+int.to.chr$ -- 0
+int.to.str$ -- 38
+missing$ -- 400
+newline$ -- 160
+num.names$ -- 76
+pop$ -- 1506
+preamble$ -- 1
+purify$ -- 182
+quote$ -- 0
+skip$ -- 2197
+stack$ -- 0
+substring$ -- 1801
+swap$ -- 3489
+text.length$ -- 20
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 152
+warning$ -- 2
+while$ -- 180
+width$ -- 40
+write$ -- 393
+(There were 2 warnings)

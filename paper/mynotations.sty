@@ -1,0 +1,76 @@
+% Some packages
+\usepackage{textcomp}     % for tilde character
+
+
+% Formating
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\pphi}{\phi}                            % the original 'phi'
+\renewcommand{\phi}{\varphi}                        % use the alternate 'phi'
+
+
+% Classical sets
+\newcommand{\Z}[0]{\mathbb{Z}}                      % set of signed integers
+\newcommand{\N}[0]{\mathbb{N}}                      % set of positive integers
+\newcommand{\R}[0]{\mathbb{R}}                      % set of real numbers
+\newcommand{\C}[0]{\mathbb{C}}                      % set of complex numbers
+
+
+% Norms
+\newcommand{\abs}[1]{{\left|#1\right|}}             % absolute value |.|
+\newcommand{\norm}[1]{\left\|#1\right\|}            % norm ||.||
+\newcommand{\norms}[1]{\|#1\|}                      % norm, small version
+\newcommand{\dotp}[2]{\langle #1,#2 \rangle}        % inner product
+
+
+% Operators
+\DeclareMathOperator*{\argmin}{arg\,min}            % arg min
+\DeclareMathOperator*{\argmax}{arg\,max}            % arg max
+\DeclareMathOperator*{\id}{Id}                      % identity
+\DeclareMathOperator*{\Span}{Span}                  % span
+
+
+% Constraints and sets
+\newcommand{\setof}[1]{\left\{#1\right\}}           % brackets for sets
+\newcommand{\suchthat}                              % such that, inside \setof
+  {\mathrel{}\middle\backslash\mathrel{}}
+\newcommand{\indi}[1]{\iota_{#1}}                   % indicative
+\newcommand{\constr}[1]{{\mathcal{C}_{\mathrm{#1}}}}% constraint set
+\newcommand{\indic}[1]{\indi{\constr{#1}}}          % indicative of a constraint
+
+
+% Differential notations
+\newcommand{\diff}[3]           % differential notation, e.g. \diff{P}{x}{x=1}
+  {\left.\frac{\partial #1}{\partial #2}\right|_{#3}}
+\newcommand{\diffs}[2]          % same in short, e.g. \diffs{P}{x}
+  {\mathrm{D}#1_{#2}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Shortcut
+\newcommand{\texttildemid}                          % a v-centered tilde
+  {{\fontfamily{ptm}\selectfont\texttildelow}}
+\newcommand{\except}{\text{\texttildemid}}          % except symbol, for indices
+\newcommand{\el}{{\left(\ell\right)}}               % the \ell into parenthesis
+\newcommand{\eL}{{\left(\ell+1\right)}}             % \ell + 1 into parenthesis
+\newcommand{\cutlocus}{\mathcal{K}}                 % cut locus K
+
+% Distance and projection
+\newcommand{\dist}[0]{\mathcal{D}}          % distance
+\newcommand{\proj}[0]{\mathcal{P}}          % projection
+
+% Histogram
+\newcommand{\hist}{h}                       % letter for histogram
+\newcommand{\chist}{\constr{\hist}}         % histogram set
+\newcommand{\whist}{\alpha_\hist}           % weight
+
+% Fourier spectrum
+\newcommand{\hu}{\hat{u}}                   % u hat
+\newcommand{\spec}{s}                       % letter for spectrum
+\newcommand{\cspec}{\constr{\spec}}         % spectrum set
+\newcommand{\wspec}{\alpha_\spec}           % weight
+
+% Patch constraint
+\newcommand{\patch}{p}                      % letter for patch
+\newcommand{\cpatch}{\constr{\patch}}       % sparsity set
+\newcommand{\wpatch}{\alpha_\patch}         % weight

@@ -1,0 +1,161 @@
+\section{Optimization}
+\label{sec:framework}
+
+\newcommand{\uo}[0]{u^{(0)}}
+\newcommand{\uinf}[0]{u^{(\infty)}}
+
+In the previous section, we have defined and justified the variational framework we propose for texture synthesis.
+The corresponding energy is expressed as a weighted sum of distances to constraint sets.
+For each of these sets, a projection operator has been defined.
+In this section, we present a general optimization procedure that is suited to such an energy, resulting in a texture synthesis algorithm.
+Before proceeding, let us observe that the presented algorithm only yields local and non unique solutions to the proposed non-convex variational approach.
+From an optimization point of view, this is a pain.
+But from a synthesis point of view, this is good news: several (local) minimizers correspond to as many possible texture synthesis.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{General Formulation}
+\label{sub:formulation}
+\newcommand{\Ci}[0]{{{\constr{}}_i}}
+The penalty function $E$ defined by~\eqref{eq:cost-function} can be rewritten as
+\begin{equation}
+  \label{eq:sum-proj}
+  E(u) = \frac{1}{2} \sum_i \alpha_i \dist^2(A_i u,\Ci)
+\end{equation}
+where the indices $i$ of the sum are $(\mathrm{p},\mathrm{s},\mathrm{h})$, the linear operators $A_i$ are $(\Pi,\id,\id)$, and $\constr{}_i$ and $\alpha_i$ are respectively the constraints and the weighting terms defined in Sect.~\ref{sec:variational}.
+
+This function measures how close some linear measurements $A_i u$ are to the subsets $\Ci$.
+We want these distances to be as small as possible and therefore look for a local minimizer of the energy $E$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Minimization}
+\label{sub:minimization}
+
+We use a gradient descent scheme to minimize the energy~$E$.
+As explained in the following paragraph, there is no theoretical guaranty about the convergence of this algorithm.
+However, local properties of the gradient are favorable for the cluster points of the algorithm to be critical points of the functional~$E$, as desired.
+
+Let $\cutlocus_i$ be the cut locus of $\proj_\Ci$, that is, the points on which the projections are not uniquely defined, and $\cutlocus = \bigcup_i A_i^{-1}\big(\cutlocus_\text{p}\big) $ the union of their reciprocal images.
+In any $u\notin\cutlocus$, the functional $E$ is $\mathcal{C}^1$.
+Its gradient is
+\begin{equation}
+  \label{eq:grad-sum-proj}
+  \nabla E(u) = \sum_i \alpha_i A_i^* \big(A_i u - \proj_\Ci(A_i u)\big),
+\end{equation}
+where the projectors $\proj_\Ci$ are given in Sect.~\ref{sec:variational}.
+On the contrary, for $u\in\cutlocus$, the projections and thus the gradient are not uniquely defined; however, any projection provides a descent direction for such $u$.
+Observe also that $\cutlocus$ is a measure-zero set.
+% A deeper theoretical analysis about Lispchitz properties of distances may be derived using~\cite{poliquin2000local}.
+
+In order to find a local minimum of~\eqref{eq:sum-proj}, we perform a gradient descent from a random point $\uo$.
+The resulting sequence is defined by
+\begin{equation}
+  \label{eq:grad-descent}
+  u^\eL = u^\el - \tau \nabla E(u^\el)
+\end{equation}
+where $\nabla E$ is the gradient~\eqref{eq:grad-sum-proj} of $E$.
+This gradient is not globally nor locally Lipschitz, mainly because of the spectrum constraint $\cspec$.
+The same problem is encountered in phase retrieval problems~\cite{bauschke2002phase}.
+In order for the gradient descent to converge, we should decrease the step size to $0$ or choose it adaptively by line-search.
+In practice, we choose a constant step size $\tau = 1/c$ with $c = \sum_i \alpha_i \norm{A_i^* A_i}$ and motivate this choice in the next paragraph.
+Even if there is no theoretical convergence guaranty, numerical experiments show that the gradient descent converges in practice to a stationary point of $E$ (see Sect.~\ref{sec:results}).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Averaged Projections}
+\label{sub:avg-projections}
+
+This paragraph points out that the averaged projection algorithm is a particular case of the proposed gradient descent scheme.
+
+We consider the case of a perfect tiling, i.e. when all the pixels belong to $Z$ patches exactly where  $Z \triangleq \lceil\tau/\Delta\rceil^2 = \norm{\Pi^*\Pi}_{2,2}$, which is the case for integer ratio $\tau/\Delta\in\N^*$ of patch size over spacing.
+In this case, $\Pi^*\Pi = Z\cdot\id$.
+Gradient descent step~\eqref{eq:grad-descent} becomes in this case
+\begin{equation}
+  \label{eq:avg-proj}
+  u^\eL = c^{-1} \sum_i \alpha_i A_i^* \proj_\Ci(A_i u^\el).
+\end{equation}
+where the constant $c$ previously defined is simply $c = \tilde\wpatch + \wspec + \whist$ with $\tilde\wpatch=\wpatch Z$.
+Relation~\eqref{eq:avg-proj} is a step of averaged projections: the transforms $A_i u^\el$ are projected on the respective sets $\Ci$ and are then averaged together.
+
+A cluster point~$\tilde{u}$ of the iterates~\eqref{eq:avg-proj} is a stationary point of the energy~\eqref{eq:sum-proj} and satisfies
+\begin{equation}
+  \label{eq:fixed-point-proj}
+  \tilde{u} = c^{-1} \sum_i \alpha_i A_i^* \proj_\Ci(A_i \tilde{u}).
+\end{equation}
+This provides a geometrical interpretation of the solutions: each solution is the barycenter of the projections of its transforms on the sets $\Ci$ weighted by $\alpha_i$.
+
+
+\paragraph{Alternated projections.}
+
+Instead of using averaged projections~\eqref{eq:avg-proj}, it is possible to use alternated projections, which gives the following iterations:
+\begin{eqnarray*}
+  u^{(3\ell+1)} &=& Z^{-1} \Pi^* \proj_\cpatch(\Pi u^{(3\ell)}), \\
+  u^{(3\ell+2)} &=& \proj_\cspec(u^{(3\ell+1)}), \\
+  u^{(3\ell+3)} &=& \proj_\chist(u^{(3\ell+2)}),
+\end{eqnarray*}
+in the case of $\tilde\wpatch=\wspec=\whist=1$.
+The convergence properties of both averaged and alternated non-convex projections on smooth manifolds are analyzed in [19].
+
+Observe however that this scheme has no chance to converge since the sets $\Ci$ are distinct in general.
+It leads to $3$ cluster points, namely $1$ point in each set $\Ci$.
+Recall that averaged projections lead to a cluster point~$\tilde{u}$~\eqref{eq:fixed-point-proj}, which is a compromise between the $3$ constraints $\Ci$.
+
+The experimental results in the next section (Fig.~\ref{fig:misc} in particular) show that the alternated projections algorithm is more likely to produce artifacts than the averaged projections algorithm.
+Note that several texture synthesis methods, like \cite{Heeger1995} and~\cite{simoncelli1992shiftable}, are implicitly based on an alternated projections scheme.
+As explained in~\cite{Heeger1995}, it is better not to iterate alternated projections too many times because the results may suffer from artifacts.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Multi-scale Procedure}
+\label{sub:multi-scale}
+
+Since the energy~\eqref{eq:cost-function} is non-convex, the choice of the initialization $\uo$ has a strong influence on the result.
+In order to avoid visually unsatisfying local minima, we perform the synthesis through $J$ scales using a classical multi-scale scheme.
+
+At scale $j\in\setof{J-1,\dots,0}$, the original image $u_0$ is decimated by a factor $2^j$ to give an image $u_j$.
+The synthesis is performed using $u_j$ as an exemplar and a dictionary $D_j$ learned on it.
+The result $\uinf_j$ is oversampled by a factor $2$ and is used as initialization $\uo_{j-1}$ for the next scale.
+The roughest scale is initialized with a white noise $\uo_{J-1}$.
+The resulting image is the synthesis $\uinf_0$ obtained at the finest scale.
+
+
+\paragraph{Decimation and oversampling} operations are performed as follows.
+The image to be decimated is first filtered by a $2\times2$ box kernel and then decimated by a factor $2$.
+The oversampling step is performed with a bi-cubic interpolation.
+The shift of half a pixel is obtained using the cubic convolution kernel $h=(-1,9,9,-1) / 16$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Implementation Details}
+\label{sub:implementation}
+
+
+\paragraph{Periodicity of the synthesis.}
+
+During the synthesis process, because of the spectrum constraint, the image is assumed to be periodic.
+The histogram constraint and the white noise initialization are consistent with this assumption since all pixels are considered independent.
+The oversampling step is made periodic by using a circular convolution.
+The patch processing is made consistent by defining the patch extracting operator $\Pi:u\mapsto\Pi(u)$ on the periodic image.
+Some patches thus contain pixels both on the very left side and on the very right side of the image.
+As a result, the synthesized image is also periodic.
+It can be tiled or shift circularly.
+
+
+\paragraph{Spacing between patches.}
+
+As defined in the notation section (Sect.~\ref{sub:notations}), the patches are located on a grid of step $\Delta$.
+To avoid mosaic artifacts, the value of $\Delta$ must be as small as possible, $1$ or $2$ pixels for instance.
+But the lower the slower.
+A higher value, for instance $4$ pixels, provides a trade-off between synthesis quality and computation time.
+
+Note that the offset of the grid of patches can be freely chosen (recall that the image is assumed periodic).
+Choosing a random offset for each iteration reduces the mosaic artifact caused by a large $\Delta$.
+In practice, a step size of $\Delta=4$ pixels with patches of size $\tau=12$ pixels does not produce mosaic artifacts with this technique and increases the speed of the algorithm (a few minutes for a $256\times256$ px image).
+
+
+\paragraph{Post processing.}
+
+To increase the grain of the resulting texture, we add an extra projection step at the very end of the synthesis process.
+The image $\uinf_0$ synthesized at the finest step is projected on the spectrum constraint and then on the histogram constraint.
+The final image is $\uinf = \proj_\chist \circ \proj_\cspec \big( \uinf_0 \big)$.

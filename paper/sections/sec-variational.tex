@@ -1,0 +1,297 @@
+\section{Variational Formulation}
+\label{sec:variational}
+
+As explained above, we define an energy functional $E$ to assert the quality of a synthesis.
+The synthesis process then consists in finding local minima of this functional.
+
+The functional $E$ is designed to account for three constraints: one on the first order statistics on the use of atoms from an adaptive, sparse dictionary, one on the spectrum of images, that is on second order pixel values statistics, and one on color histograms, that is on first order pixel values statistics.
+This is achieved through the distances to 3 sets: the set $\cpatch$ of patches being sparse in a dictionary $D_0$ learned from $u_0$ and whose atoms frequency matches the ones of the decomposition of $u_0$ in this dictionary, the set $\cspec$ of images whose Fourier frequencies are the same as in $u_0$, and the set $\chist$ of images whose color histogram is the same as $u_0$.
+
+We therefore define $E(u)$ equals to
+\begin{equation}
+  \label{eq:cost-function}
+  \frac{\wpatch}{2}\dist^2(\Pi(u),\cpatch) + \frac{\wspec}{2}\dist^2(u,\cspec) + \frac{\whist}{2}\dist^2(u,\chist),
+\end{equation}
+where $(\wpatch,\wspec,\whist)$ are weighting terms.
+% We may consider $\tilde\wpatch=\wpatch Z$ with $Z=\lceil\frac{\tau}{\Delta}\rceil^2$ for the sake of normalization\footnote{Note that $Z = \norm{\Pi}^2_{2,2} = \norm{\Pi^*\Pi}_{2,2}$.}.
+The adjoint operator $\Pi^*$, involved in the optimization process, reverberates the constraints on the patches to the image.
+The sets $(\cpatch,\cspec,\chist)$ are detailed hereafter.
+The projection operators $\proj_\constr{}$ on these sets are also defined and presented in the following paragraphs since they are involved in the iterative optimization process detailed in Sect.~\ref{sec:framework}.
+We start with the most straightforward histogram constraint, then proceed with the Fourier constraint, and eventually present the most involved, dictio\-nary-based constraint.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Histogram Constraint}
+\label{sub:histogram-constraint}
+
+The constraint $\chist$ imposes the histogram to match the one of the exemplar.
+In other words, we want to preserve the gray-level or color distribution of the texture.
+This requirement is common in texture synthesis: it is used in~\cite{Heeger1995} or~\cite{peyre2009sparse} to ensure that the synthesized image has a similar dynamic and color distribution as the original image.
+
+
+\subsubsection{Definition}
+
+We define the set of images whose color histogram is the same as the one of $u_0$ as:
+\begin{equation}
+  \chist
+    = u_0 \big(\Sigma_\abs{\Omega}\big)
+    = \setof{ u_0\circ\sigma \suchthat \sigma\in\Sigma_{\abs\Omega} },
+\end{equation}
+where $\Sigma_{\abs\Omega}$ is the set of permutations of $\Omega$.
+Two images have the same histogram if they only differ by a permutation of their pixels.
+
+
+\subsubsection{Projection}
+
+The projection on $\chist$ is called ``histogram transfer''~\cite{pitie2005n}.
+In the case of grey-level images ($d=1$), the projection $u_0\circ\sigma^*$ of an image $u$ on the set $\chist$ is given by
+\begin{equation}
+  \sigma^*=\sigma_{u_0}\circ\sigma_u^{-1}
+\end{equation}
+where we denote by $\sigma_v$ the permutation sorting the pixel values of an image $v$:
+\begin{equation*}
+  v_{\sigma_v(0)} \leq\dots\leq v_{\sigma_v(i)} \leq v_{\sigma_v(i+1)} \leq\dots
+\end{equation*}
+
+When $u$ and $u_0$ have different numbers of pixels, the sorted sequence of values $u_0\circ\sigma_{u_0}$ is oversampled using a nearest-neighbor approximation.
+Note that a linear or cubic interpolation is not adapted since it creates new gray level values.
+This may create artifacts if the histogram to be interpolated has a gap (as for example with a mixture of Gaussians).
+
+The color case is more difficult: exact algorithms like the Hungarian method~\cite{kuhn1955hungarian} are polynomial and are not tractable.
+An iterative approximation as been proposed in~\cite{rabin2012wasserstein} and can be applied to image histograms.
+We use a rougher but faster approximation to the optimal transport thanks to a change of color space.
+For $i=1\dots3$, let $c^{(i)}\in\R^3$  be the colors obtained by a PCA on the RGB components of $u_0$.
+Such a transform is adequate for our purpose. % since color textures rarely include more than two dominant hues.
+We denote respectively by $u_0^{(i)}$ and $u^{(i)}$ the components of $u_0$ and $u$ in this color basis.
+We approximate the solution by solving 3 independent histogram transfers between each $u_0^{(i)}$ and $u^{(i)}$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Fourier Spectrum Constraint}
+\label{sub:fourier-constraint}
+
+The correlation between the pixels of the image $u_0$ is given by its power spectrum $\abs{\hu_0}^2$, where $\hu_0$ denotes the discrete Fourier transform of $u_0$, defined in~\eqref{eq:dft}.
+As explained in the introduction, correlations between pixel values are an important characteristic of textures~\cite{Julesz1981,galerne2011random}, which motivates their inclusion in the functional~\eqref{eq:cost-function}.
+
+
+\subsubsection{Definition}
+
+The set of images whose spectrum is the same as $u_0$ is
+\begin{equation}
+  \label{eq:cspec}
+  \cspec = \setof{
+    u \suchthat \hu(m) = e^{\ii\phi(m)} \hu_0(m) \quad\forall m
+  }
+\end{equation}
+where the multiplication by $e^{\ii\phi(m)}$ preserves the amplitude but changes the phase of the coefficient $\hu_0(m)$ by $\phi(m)\in[0,2\pi[$.
+In the gray-level case ($d=1$), the condition can be rewritten as $\abs{\hu(m)} = \abs{\hu_0(m)}$.
+In the color case ($d=3$), it is important for color coherency that the multiplication of $\hu_0(m) \in\C^3$ by $e^{i\phi(m)}$ preserves the phase differences between the R, G, and B channels~\cite{galerne2011random}.
+Therefore, texture synthesis is performed in~\cite{galerne2011random} by preserving the spectrum of $u_0$ while generating phases $\phi(m)$ randomly.
+It is equivalent to draw at random an element from $\cspec$.
+
+To reduce the boundary artifacts caused by the inherent periodicity assumption of the discrete Fourier transform, we use the periodic decomposition of~\cite{moisan2011periodic}, so that the image $u_0$ is decomposed as the sum of a smooth image and a (circularly) periodic image.
+We drop the smooth component and only keep the periodic one, which is well suited to the discrete Fourier transform.
+
+
+\subsubsection{Projection}
+
+The projection of an image $u$ on the set $\cspec$ consists in putting together the modulus of $\hu_0$ and the phases of $\hu$.
+The solution, as detailed in Appendix~\ref{app:spec-proj}, is the image $u_s$ defined by
+\begin{equation}
+  \label{eq:cspec-proj}
+  \hu_s=\frac{\hu\cdot\hu_0}{\abs{\hu\cdot\hu_0}}\hu_0
+\end{equation}
+where the $m$ variable has been dropped for the sake of readability and $x\cdot y=xy^*$ denotes the hermitian product of $\C^d$ ($d=1$ for gray level images and $d=3$ for color images).
+
+
+\paragraph{Remark.} As shown in the experimental section (Sect.~\ref{sec:results}), the spectrum constraint $\cspec$ handles a drawback of the patch sparsity constraint $\cpatch$ described in the following paragraph: patches cannot handle the low frequencies of the image because they are too small to capture them.
+Patches also reduce high frequencies because of the sparse decomposition based on the $\ell^2$ norm which promotes smooth approximations.
+The spectrum constraint is thus a good candidate to go along with the patch constraint.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sparse Decomposition of the Patches}
+\label{sub:patch-constraint}
+
+Decomposing the patches $\Pi(u)$ of an image $u$ as a sparse linear combination $D_0 W$ of elements in an adaptive dictionary $D_0$ has first been proposed by~\cite{peyre2009sparse} in the context of texture synthesis.
+As explained in the introduction, this framework enables us to efficiently synthesize highly structured aspects of textures, such as edges or regular patterns.
+
+The set of patches $\Pi(u_0)$ of $u_0$ is first factorized into a dictionary $D_0$ and a sparse matrix $W_0$ of coefficients.
+In this first case, both the dictionary and the coefficients are unknown: the K-SVD algorithm~\cite{elad2006image} computes these two matrices $D_0$ and $W_0$.
+% The dictionary $D_0$ is learned only once; it captures geometrical information of the texture $u_0$ to be synthesized.
+Then, during the synthesis, any set of patches $P$ is decomposed into this fixed dictionary $D_0$ and leads to a weight matrix $W$.
+The weights of this decomposition must satisfy two constraints: each patch can use only a few number of atoms from $D_0$, and each atom of $D_0$ must be used as often in $W$ as it is in $W_0$.
+
+
+\subsubsection{Learning Stage}
+
+The learning consist in learning an over-complete dictionary $D_0$ from the exemplar $u_0$.
+This stage is performed only once before the synthesis process.
+
+A dictionary $D_0$ of $N$ atoms is obtained by minimizing
+\begin{multline}
+  \label{eq:dico-learning}
+  (D_0,W_0) =
+    \argmin_{D,W}
+    \norm{\Pi(u_0) - DW}^2  \\
+    \text{s.t.}             \quad
+    \begin{cases}
+      \norm{D_n}_2 \leq 1 & \forall n=1\dots N, \\
+      \norm{W_k}_0 \leq S & \forall k.
+    \end{cases}
+\end{multline}
+This non-convex combinatorial problem is NP-hard~\cite{tropp2004greed}.
+An approximated solution can be computed using the K-SVD~\cite{aharon2006ksvd} algorithm for instance, or the MOD~\cite{engan1999method} algorithm.
+
+The number $N$ of elements of the dictionary must be chosen so that $D_0$ has some redundancy.
+We choose, for instance, $N$ to be approximately equal to $2\tau^2$ to have a redundancy factor of 2.
+
+The sparsity constraint $\norm{W_k}_0\leq S$ imposes to each patch $p_k$ to be approximated using at most $S$ atoms from the dictionary.
+This constraint enforces the dictionary to represent the patterns and features of the texture, as shown in~\cite{peyre2009sparse}.
+
+
+\subsubsection{Definition of the Constraint}
+
+The dictionary $D_0$ being learned, we control both the sparsity of the decomposition and the number of occurrences of the atoms.
+As explained in the introduction, this is an algorithmic interpretation of the second Julesz principle, stating that first order statistics of {\it textons} (in the present context, of atoms) are important for the visual discrimination of textures.
+Precisely, the second constraint is that each atom $d_n$ should be used at most $F^n$ times.
+The bound $F^n = \frac{K}{K_0}\norms{W_0^n}_0$ is learned from the decomposition $W_0$ of the exemplar $u_0$ and is normalized according to the numbers $K$ and $K_0$ of patches in $u$ and $u_0$ respectively (the exemplar and the synthesis may have different dimensions).
+
+The resulting set of image patches satisfying these constraints is
+\begin{equation}
+  \label{eq:cpatch}
+  \cpatch = \setof{D_0 W \suchthat
+    \norm{W_k}_0 \leq S \enskip\text{and}\enskip
+    \norm{W^n}_0 \leq F^n \quad \forall k,n
+  }.
+\end{equation}
+Observe that this constraint results in a constraint on the number of non-zero coefficients both on the rows and the columns of the weight matrix $W$.
+
+
+\subsubsection{Projection}
+
+Computing the projection $D_0 W$ on $\cpatch$ is a combinatorial problem quite similar to~\cite{elad2006image} which is known to be a NP-hard problem~\cite{tropp2004greed}.
+We approximate a solution of this problem using the greedy Algorithm~\ref{algo:greedy-sparse}.
+The result is then improved using a back-projection step, as detailed hereafter.
+This is inspired from the Matching Pursuit (MP) algorithm~\cite{mallat1993matching}.
+
+\begin{algorithm}
+  \caption{approximation of the projection on $\cpatch$}
+  \label{algo:greedy-sparse}
+
+  \KwData{patches $P=\Pi(u)$, dictionary $D_0$.}
+  \KwIn{sparsity $S$, \# of occurrences $F^n$, iteration factor $\lambda\approx 1.5$.}
+  \KwOut{coefficients $W$.}
+
+  \emph{Initialization:} set $W=0$ and $R=P$; compute $\Phi=D_0^T P$.\\
+  \For{$\ell = 1$ \emph{\KwTo} $\lambda SK$}{
+  -- find the best indices $(k^*,n^*)$ defined by~\eqref{eq:decompo-kn}.\\
+  -- compute the best weight $w^*$ using~\eqref{eq:decompo-w}.\\
+  -- update $W$, $R$, and $\Phi$ using
+     \eqref{eq:decompo-next-w}, \eqref{eq:decompo-next-residual}, and~\eqref{eq:decompo-next-dotprod}.
+  }
+  \emph{Back-projection:} update $W$ by solving the linear systems~\eqref{eq:back-projection}.
+\end{algorithm}
+
+
+\subsubsection{Algorithm Details}
+
+The algorithm is iterative.
+The coefficients $W_k^n$ are updated one by one until the constraints $\cpatch$ detailed in~\eqref{eq:cpatch} are saturated.
+At each step, the choice of the couple patch/atom $(k,n)$ to be updated is optimal.
+The non-zero coefficients of the resulting weight matrix $W$ are then refined (during the back-projection step).
+
+
+\paragraph{Greedy algorithm.}
+
+We denote by $E_{n,k}$ the elementary matrix whose only non-zero coefficient is $1$ at position $(n,k)$.
+At step $\ell$ of Algorithm~\ref{algo:greedy-sparse}, the current estimation of $W$ is denoted by $W^\el$.
+Both a patch index $k^*$ and an atom index $n^*$ are chosen according to
+\begin{equation}
+  \label{eq:decompo-step}
+  (k^*,n^*,w^*) = \argmin_{k,n,w}
+    \norm{P-D_0 \big(W^\el + w E_{n,k}\big)}^2
+\end{equation}
+under the constraint
+\begin{equation}
+  W^\el + wE_{n,k} \in \cpatch.
+\end{equation}
+The coefficient $(k^*,n^*)$ of $W^\el$ is updated while the others are left unchanged:
+\begin{equation}
+  \label{eq:decompo-next-w}
+  W^\eL = W^\el + w^* E_{n^*,k^*}.
+\end{equation}
+As shown in Appendix~\ref{app:patch-proj}, the solution of~\eqref{eq:decompo-step} is
+\begin{eqnarray}
+  \label{eq:decompo-kn}
+  (k^*,n^*) &=& \argmax_{(k,n)\in\mathcal{I}_{W^\el}} \abs{\dotp{R_k^\el}{D_n}} \\
+  \label{eq:decompo-w}
+  w^* \;    &=& \; \dotp{R_k^\el}{D_n}
+\end{eqnarray}
+where $R_k^\el$ is the $k^\text{th}$ column of the residual $R^\el$ defined at step $\ell$ by
+\begin{equation}
+  \label{eq:residual}
+  R^\el = P - D_0 W^\el,
+\end{equation}
+and the set $\mathcal{I}_{W^\el}$ of available indices is
+\begin{equation}
+  \label{eq:decompo-support}
+  \mathcal{I}_W=\setof{
+    (k,n)\suchthat
+    \norm{W_k^{\except n}}_0 <S \quad\text{and}\quad
+    \norm{W_{\except k}^n}_0 <F^n
+  },
+\end{equation}
+where we denote $W_k^{\except n} = \big(W_k^{n'}\big)_{n'\neq n}$ and $W_{\except k}^n = \big(W_{k'}^n\big)_{k'\neq k}$.
+
+In the very particular case where $D_0$ is orthogonal, this algorithm converges in at most $KS$ iterations because the resulting $(k^*,n^*)$ are different at each iteration: the $K$ constraints $\norm{W_k}_0 \leq S$ are saturated after $KS$ iterations.
+In general, the algorithm does not converge in a finite number of iterations: we decide to stop after $\lambda KS$ iterations anyway with $\lambda=1.5$.
+
+
+\paragraph{Efficient computation.}
+
+To save computation time, residuals $R^\el$ and inner products
+  $\Phi^\el = \big( \dotp{R_k^\el}{D_n} \big)_{n,k}$
+can be pre-computed and updated by
+\begin{eqnarray}
+  \label{eq:decompo-next-residual}
+  R^\eL &=& R^\el - w^* D_0 E_{n^*,k^*} \\
+  \label{eq:decompo-next-dotprod}
+  \Phi^\eL &=& \Phi^\el - w^* D_0^T D_0 E_{n^*,k^*}.
+\end{eqnarray}
+
+Using a max-heap search for~\eqref{eq:decompo-kn} and assuming that $S\ll L\leq N\ll K$, the time complexity of this algorithm is in $\mathcal{O}\big(KN(L+\lambda S\log K)\big)$.
+Note as a reference that the computation of all the inner products $\dotp{P_k}{D_n}$ already requires $\Theta(KNL)$ operations.
+
+
+\paragraph{Back-projection.}
+
+The iterative greedy algorithm described above provides weights $\tilde{W}$ to decompose $P$ as $D_0 W\in\cpatch$.
+A drawback of the greedy approach is that the weights are estimated one by one: the approximation error may be quite large.
+The back-projection step ---as introduced in~\cite{mallat1993matching}--- improves this solution by refining all the non-zeros coefficients of $\tilde{W}$ while the constraints from $\cpatch$ are still satisfied.
+
+The support of $\tilde{W}_k$ is denoted by
+\begin{equation}
+  I_k=\setof{n \suchthat \tilde{W}_k^n\neq 0}.
+\end{equation}
+Its cardinal satisfies $\#(I_k)\leq S$ since $\tilde{W}\in\cpatch$.
+The back-pro\-jec\-tion step consists in computing the projection of $P_k$ on $\Span\big((D_n)_{n\in I_k}\big)$.
+This is done by solving a linear system in dimension at most~$S$: the back-projected weights $W_k$ are
+\begin{equation}
+  \label{eq:back-projection}
+  W_k^{I_k}=\argmin_w \norm{P_k - D_{I_k} w}^2
+\end{equation}
+and $0$ elsewhere, where $W_k^I = \big(W_k^n\big)_{n\in I}$ and $D_I = \big(D_n\big)_{n\in I}$.
+
+
+\paragraph{Patch extraction and image reconstruction.}
+
+The patch extracting operator $\Pi$ involved in the function~\eqref{eq:cost-function} extracts the patches $P=\Pi(u)$ from any image $u$.
+
+Its adjoint operator $\Pi^*$ is involved in the optimization process described in Sect.~\ref{sec:framework}.
+The effect of $\Pi^*$ on a set of patches $P$ is to merge all of them into an image $\tilde{u}=\Pi^*(P)$ by summing the overlapping parts of the patches.
+
+In our previous work~\cite{tartavel2013constrained}, we replaced this operator by a non-linear operator $\Pi_\text{NL}$, because the linear operator $\Pi^*$ introduced some blur when averaging the overlapping parts of the patches.
+In the current paper, we introduced the spectrum constraint $\cspec$ which ensures the synthesized image to be sharp enough.
+As a result, we do not need the non-linear operator any longer.
+During the optimization process in Sect.~\ref{sec:framework}, we use the true adjoint operator $\Pi^*$ involved in the gradient of the function~\eqref{eq:cost-function}.

@@ -1,0 +1,124 @@
+\RequirePackage[log]{snapshot}
+\documentclass[twocolumn]{svjour3}
+
+% Basic packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{mathptmx}   % use Times fonts if available
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+
+% More formating
+\usepackage[ruled,vlined]{algorithm2e}
+%\usepackage{comment}
+\usepackage{mynotations}
+%\usepackage{mystyle}
+
+% Other packages
+\usepackage{url}
+\usepackage[colorlinks=true]{hyperref}   % last package
+
+% Some settings
+\journalname{Journal of Mathematical Imaging and Vision}
+\smartqed
+\graphicspath{{./images/}}
+
+% Some commands
+\newcommand{\rednote}[2][Note]{\medskip\noindent\textbf{\color{red}#1} --- #2\medskip}
+\newcommand{\todo}[1]{\rednote[To Do]{#1}}
+
+% Start
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%  Header of the paper  %%%%%%%%%%%%%%%%%%%%
+
+\date{Received: date / Accepted: date}   % entered by the editor
+
+\title{Variational Texture Synthesis with Sparsity and Spectrum Constraints}
+%\subtitle{Complementarity of Patch Sparsity and Spectrum Constraints}
+%\titlerunning{Variational Texture Synthesis}
+
+\authorrunning{G.~Tartavel, Y.~Gousseau, and G.~Peyr\'e}
+\author{
+  Guillaume Tartavel \and
+  Yann Gousseau \and
+  Gabriel Peyr\'e
+}
+
+\institute{
+  Guillaume TARTAVEL \at
+Telecom ParisTech / LTCI CNRS \\
+    46 rue Barrault -- F-75634 Paris Cedex 13 -- France \\
+    Tel.: +33 1 45 81 73 91 \\
+    \email{tartavel@telecom-paristech.fr}
+  \and
+  Yann GOUSSEAU \at
+Telecom ParisTech / LTCI CNRS \\
+    46 rue Barrault -- F-75634 Paris Cedex 13 -- France \\
+    Tel.: +33 1 45 81 78 41 \\
+    \email{gousseau@telecom-paristech.fr}
+  \and
+  Gabriel PEYR\'E \at
+    CNRS / Ceremade, Universit\'e Paris-Dauphine \\
+    Pl.~Mar\'echal De Lattre De Tassigny -- 75775 Paris Cedex 16 -- France \\
+    Tel.: +33 1 44 05 48 71 \\
+    \email{peyre@ceremade.dauphine.fr}
+}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%  Content of the paper  %%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+
+This paper introduces a new approach for texture synthesis.
+We propose a unified framework that both imposes first order statistical constraints on the use of atoms from an adaptive dictionary, as well as second order constraints on pixel values.
+This is achieved thanks to a variational approach, the minimization of which yields local extrema, each one being a possible texture synthesis.
+On the one hand, the adaptive dictionary is created using a sparse image representation rationale, and a global constraint is imposed on the maximal number of use of each atom from this dictionary.
+On the other hand, a constraint on second order pixel statistics is achieved through the power spectrum of images.
+In a sense, this method reconciles the first and second theory proposed by B.~Julesz for texture discrimination.
+An advantage of the proposed method is its ability to truly synthesize textures, without verbatim copy of small pieces from the exemplar.
+In an extensive experimental section, we show that the resulting synthesis achieves state of the art results, both for structured and small scale textures.
+
+\keywords{
+  texture synthesis \and
+  variational methods \and
+  statistical constraints \and
+  Fourier spectrum \and
+  sparse decomposition \and
+  dictionary learning \and
+  random phase textures \and
+  Gaussian textures
+}
+
+% \PACS{PACS code1 \and PACS code2 \and more}
+% \subclass{MSC code1 \and MSC code2 \and more}
+\end{abstract}
+
+
+% Sections
+
+\input{sections/sec-introduction}
+\input{sections/sec-variational}
+\input{sections/sec-framework}
+\input{sections/sec-results}
+\input{sections/sec-conclusion}
+\input{sections/app-proofs}
+%\input{sections/app-projections}   % for our comprehension only
+
+
+%%%%%%%%%%%%%%%%%%%%  End of the paper  %%%%%%%%%%%%%%%%%%%%
+
+\begin{acknowledgements}
+  We would like to thanks the authors of the VisTex database~\cite{pickard1995vistex} for the set of textures they publicly provide.
+  Gabriel Peyré also acknowledges support from the European Research Council (ERC project SIGMA-Vision).
+  Yann Gousseau acknowledges support from the French National Research Agency (ANR pro\-ject MATAIM).
+\end{acknowledgements}
+
+\bibliographystyle{spmpsci}
+\bibliography{bibliography}
+
+\end{document}

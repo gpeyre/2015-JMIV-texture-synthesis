@@ -1,0 +1,258 @@
+\RequireVersions{
+  *{application}{TeX}     {1990/03/25 v3.x}
+  *{format} {LaTeX2e}     {2011/06/27 v2.e}
+  *{package}{snapshot}    {2002/03/05 v1.14}
+  *{class}  {svjour3}     {2007/05/08 v3.2}
+  *{file}   {fleqn.clo}   {1998/08/17 v1.1c}
+  *{file}   {svglov3.clo} {2009/12/18 v3.2}
+  *{package}{inputenc}    {2008/03/30 v1.1d}
+  *{file}   {utf8.def}    {2008/04/05 v1.1m}
+  *{file}   {t1enc.dfu}   {2008/04/05 v1.1m}
+  *{file}   {ot1enc.dfu}  {2008/04/05 v1.1m}
+  *{file}   {omsenc.dfu}  {2008/04/05 v1.1m}
+  *{package}{fontenc}     {0000/00/00 v0.0}
+  *{file}   {t1enc.def}   {2005/09/27 v1.99g}
+  *{package}{babel}       {2008/07/08 v3.8m}
+  *{file}   {english.ldf} {2005/03/30 v3.3o}
+  *{package}{mathptmx}    {2005/04/12 v9.2a}
+  *{package}{amsmath}     {2000/07/18 v2.13}
+  *{package}{amstext}     {2000/06/29 v2.01}
+  *{package}{amsgen}      {1999/11/30 v2.0}
+  *{package}{amsbsy}      {1999/11/29 v1.2d}
+  *{package}{amsopn}      {1999/12/14 v2.01}
+  *{package}{amssymb}     {2009/06/22 v3.00}
+  *{package}{amsfonts}    {2009/06/22 v3.00}
+  *{package}{graphicx}    {1999/02/16 v1.0f}
+  *{package}{keyval}      {1999/03/16 v1.13}
+  *{package}{graphics}    {2009/02/05 v1.0o}
+  *{package}{trig}        {1999/03/16 v1.09}
+  *{file}   {graphics.cfg}{2010/04/23 v1.9}
+  *{file}   {pdftex.def}  {2011/05/27 v0.06d}
+  *{package}{infwarerr}   {2010/04/08 v1.3}
+  *{package}{ltxcmds}     {2011/11/09 v1.22}
+  *{package}{algorithm2e} {2008/00/00 v3.10}
+  *{package}{ifthen}      {2001/05/26 v1.1c}
+  *{package}{xspace}      {2009/10/20 v1.13}
+  *{package}{relsize}     {2011/09/21 v4.0}
+  *{package}{mynotations} {0000/00/00 v0.0}
+  *{package}{textcomp}    {2005/09/27 v1.99g}
+  *{file}   {ts1enc.def}  {2001/06/05 v3.0e}
+  *{file}   {ts1enc.dfu}  {2008/04/05 v1.1m}
+  *{package}{url}         {2006/04/12 v3.3}
+  *{package}{hyperref}    {2012/05/13 v6.82q}
+  *{package}{hobsub-hyperref}{2012/05/28 v1.13}
+  *{package}{hobsub-generic}{2012/05/28 v1.13}
+  *{package}{hobsub}      {2012/05/28 v1.13}
+  *{package}{ifluatex}    {2010/03/01 v1.3}
+  *{package}{ifvtex}      {2010/03/01 v1.5}
+  *{package}{intcalc}     {2007/09/27 v1.1}
+  *{package}{ifpdf}       {2011/01/30 v2.3}
+  *{package}{etexcmds}    {2011/02/16 v1.5}
+  *{package}{kvsetkeys}   {2012/04/25 v1.16}
+  *{package}{kvdefinekeys}{2011/04/07 v1.3}
+  *{package}{pdftexcmds}  {2011/11/29 v0.20}
+  *{package}{pdfescape}   {2011/11/25 v1.13}
+  *{package}{bigintcalc}  {2012/04/08 v1.3}
+  *{package}{bitset}      {2011/01/30 v1.1}
+  *{package}{uniquecounter}{2011/01/30 v1.2}
+  *{package}{letltxmacro} {2010/09/02 v1.4}
+  *{package}{hopatch}     {2012/05/28 v1.2}
+  *{package}{xcolor-patch}{2011/01/30 v0.0}
+  *{package}{atveryend}   {2011/06/30 v1.8}
+  *{package}{atbegshi}    {2011/10/05 v1.16}
+  *{package}{refcount}    {2011/10/16 v3.4}
+  *{package}{hycolor}     {2011/01/30 v1.7}
+  *{package}{ifxetex}     {2010/09/12 v0.6}
+  *{package}{kvoptions}   {2011/06/30 v3.11}
+  *{file}   {pd1enc.def}  {2012/05/13 v6.82q}
+  *{file}   {hyperref.cfg}{2002/06/06 v1.2}
+  *{file}   {hpdftex.def} {2012/05/13 v6.82q}
+  *{package}{rerunfilecheck}{2011/04/15 v1.7}
+  *{file}   {ts1cmr.fd}   {1999/05/25 v2.5h}
+  *{file}   {t1ptm.fd}    {2001/06/04 v1/ptm.}
+  *{file}   {supp-pdf.mkii}{0000/00/00 v0.0}
+  *{package}{epstopdf-base}{2010/02/09 v2.5}
+  *{package}{grfext}      {2010/08/19 v1.1}
+  *{file}   {epstopdf-sys.cfg}{2010/07/13 v1.3}
+  *{package}{color}       {2005/11/14 v1.0j}
+  *{file}   {color.cfg}   {2007/01/18 v1.5}
+  *{package}{nameref}     {2010/04/30 v2.40}
+  *{package}{gettitlestring}{2010/12/03 v1.4}
+  *{file}   {article.out} {0000/00/00 v0.0}
+  *{file}   {article.out} {0000/00/00 v0.0}
+  *{file}   {ot1ztmcm.fd} {2000/01/03 v1.801}
+  *{file}   {omlztmcm.fd} {2000/01/03 v1.801}
+  *{file}   {omsztmcm.fd} {2000/01/03 v1.801}
+  *{file}   {omxztmcm.fd} {2000/01/03 v1.801}
+  *{file}   {ot1ptm.fd}   {2001/06/04 v1/ptm.}
+  *{file}   {sections/sec-introduction.tex}{0000/00/00 v0.0}
+  *{file}   {t1cmtt.fd}   {1999/05/25 v2.5h}
+  *{file}   {sections/sec-variational.tex}{0000/00/00 v0.0}
+  *{file}   {ts1ptm.fd}   {2001/06/04 v1/ptm.}
+  *{file}   {sections/sec-framework.tex}{0000/00/00 v0.0}
+  *{file}   {sections/sec-results.tex}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Sand-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Water-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Fabric-13.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Fabric-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Fabric-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Sand-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Flowers-04.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Water-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Clouds-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-13.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Sand-06.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Bark-11.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Brick-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Flowers-04.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Clouds-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Sand-06.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Bark-11.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Brick-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Fabric-11.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Brick-07.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Flowers-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Food-08.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-11.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Brick-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Brick-07.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Brick-04.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Flowers-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Food-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Tile-04.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Food-08.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Brick-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Brick-04.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Food-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Tile-04.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Sand-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Clouds-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Bark-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Sand-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/portilla/Sand-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/heeger/Sand-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/galerne/Sand-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/peyre/Sand-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Clouds-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/portilla/Clouds-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/heeger/Clouds-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/galerne/Clouds-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/peyre/Clouds-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Fabric-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/portilla/Fabric-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/heeger/Fabric-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/galerne/Fabric-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/peyre/Fabric-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/portilla/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/heeger/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/galerne/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/peyre/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Bark-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/portilla/Bark-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/heeger/Bark-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/galerne/Bark-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/peyre/Bark-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Sand-06.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/efros/img/Sand-06.png}{0000/00/00 v0.0}
+  *{file}   {./images/efros/img/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/efros/map/Sand-06.png}{0000/00/00 v0.0}
+  *{file}   {./images/efros/map/Brick-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-1-1-raw/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/0-1-1/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-0-1/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-1-0/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-1-1-raw/Fabric-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/0-1-1/Fabric-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-0-1/Fabric-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-1-0/Fabric-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-11.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-1-1-raw/Fabric-11.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/0-1-1/Fabric-11.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-0-1/Fabric-11.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-1-0/Fabric-11.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Sand-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-1-1-raw/Sand-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/0-1-1/Sand-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-0-1/Sand-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/1-1-0/Sand-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/scales/1/Fabric-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/scales/2/Fabric-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/scales/3/Fabric-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/scales/1/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/scales/2/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/scales/3/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/scales/1/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/scales/2/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/scales/3/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/patch-size/8/Fabric-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/patch-size/12/Fabric-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/patch-size/16/Fabric-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/patch-size/8/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/patch-size/12/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/patch-size/16/Bark-03.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/patch-size/8/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/patch-size/12/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/patch-size/16/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Misc-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Flowers-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Bark-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Stone-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/3-5-1/Misc-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/2-3-1/Misc-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Misc-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/2-1-3/Misc-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/3-1-5/Misc-01.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/3-5-1/Flowers-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/2-3-1/Flowers-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Flowers-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/2-1-3/Flowers-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/3-1-5/Flowers-00.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/3-5-1/Bark-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/2-3-1/Bark-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Bark-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/2-1-3/Bark-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/3-1-5/Bark-10.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/3-5-1/Stone-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/2-3-1/Stone-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Stone-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/2-1-3/Stone-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/3-1-5/Stone-02.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/3-5-1/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/2-3-1/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/default/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/2-1-3/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/weights/3-1-5/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/sparsity/2/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/sparsity/4/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/sparsity/6/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/sparsity/8/Fabric-12.png}{0000/00/00 v0.0}
+  *{file}   {./images/input/Sand-05.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/others/Sand-05/raw-12-1.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/others/Sand-05/raw-12-4.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/others/Sand-05/raw-12-4-t.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/others/Sand-05/final-12-4-t.png}{0000/00/00 v0.0}
+  *{file}   {./images/our/others/Sand-05/PHSH.png}{0000/00/00 v0.0}
+  *{file}   {sections/sec-conclusion.tex}{0000/00/00 v0.0}
+  *{file}   {sections/app-proofs.tex}{0000/00/00 v0.0}
+  *{file}   {article.bbl} {0000/00/00 v0.0}
+}

@@ -1,0 +1,12 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+In this paper, we proposed a texture synthesis framework which puts together both a Fourier spectrum constraint and a sparsity constraint on the patches.
+Thanks to these two constraints, our method is able to synthesize a wide range of textures without a patch-based copy-paste approach.
+The spectrum controls the amount of oscillations and the grain of the synthesized image,
+while the sparsity of the patches handles geometrical information such as edges and sharp patterns.
+
+We propose a variational framework to take both constraints into account.
+This framework is based on a non-convex energy function defined as the sum of weighted distances between the image (or some linear transform of it) and these constraints.
+The synthesis consists in finding local minima of this function.
+The proposed framework is generic and can take into account other constraints: in addition to the sparsity and spectrum constraint, we use a histogram constraint to control the color distribution.

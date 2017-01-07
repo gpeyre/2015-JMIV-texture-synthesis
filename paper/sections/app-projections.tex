@@ -1,0 +1,204 @@
+\section{Appendix: Projection Results}
+\label{sec:app-proj}
+
+\rednote{This section will be removed}
+% \excludecomment{proof}    % Hide the proofs
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Notations}
+
+Let $E$ be an Euclidean space and $K\subset E$ a compact set.
+
+\begin{definition}
+  An orthogonal projection of $x\in E$ on $K$ is denoted by
+  \begin{equation}
+    \label{eq:def-proj}
+    \proj(x) \in \argmin_{y\in K} \norm{x-y}.
+  \end{equation}
+\end{definition}
+
+\begin{definition}
+  The distance from $x\in E$ to $K$ is denoted by
+  \begin{eqnarray}
+    \dist(x)
+      &=& \min_{y\in K} \norm{x-y}    \label{eq:def-dist-min} \\
+      &=& \norm{x-\proj (x)}          \label{eq:def-dist-proj}.
+  \end{eqnarray}
+\end{definition}
+
+\begin{proposition}
+  If $y\in K$ satisfies $\dotp{x-y}{y-y'} \geq 0 \quad\forall y'\in K$,
+  then $y = \proj(x)$.
+\end{proposition}
+
+\begin{proof}
+  Just notice that $y\in K$ is a minimizer of \eqref{eq:def-proj} since
+  \begin{eqnarray*}
+    \norm{x-y'}^2
+      & =   & \norm{x-y}^2 + 2 \dotp{x-y}{y-y'} + \norm{y-y'}^2 \\
+      &\geq & \norm{x-y}^2
+  \end{eqnarray*}
+  \qed
+\end{proof}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Convexity}
+
+In this section (and only here), we assume that $K$ is a convex set.
+
+\begin{proposition}
+  \label{thm:prop-convex-proj}
+  $\proj$ is uniquely defined on $E$.
+\end{proposition}
+
+\begin{proof}
+  Let's assume that $y$ and $y'$ are $2$ different points satisfying \eqref{eq:def-proj}.
+
+  Then the orthogonal projection of $x$ on the line $\Delta=(yy')$ is $z=(y+y')/2$ since $\norm{x-y}=\norm{x-y'}$.
+  This violates \eqref{eq:def-proj} because $\norm{x-z}<\norm{x-y}$ although $z\in K$ by convexity.\qed
+\end{proof}
+
+\begin{proposition}
+  \label{thm:prop-lipschitz-proj}
+  $\proj$ is a contraction\footnotemark[1].
+\end{proposition}
+
+\begin{proposition}
+  \label{thm:prop-lipschitz-idp}
+  $\id - \lambda\proj$ is a contraction\footnotemark[1] for any $\lambda \in [0,2]$.
+\end{proposition}
+
+\footnotetext[1]{
+  A contraction is a $1$-Lipschitz function, i.e.
+  $\norm{f(x)-f(x')} \leq \norm{x-x'} \quad\forall x,x'$.
+}
+
+\begin{proof}[sketch]
+  Consider $x,x'\in E$ and their projections $y,y'$ on $K$.
+
+  If $y\neq y'$, consider the line $\Delta=(yy')$ and the orthogonal projections $z,z'$ of $x,x'$ on $\Delta$.
+  Using convexity of $K$ and definition \eqref{eq:def-dist-min} of $\dist$, show that $z,y,y',z'$ are aligned in this order on $\Delta$: use this fact to demonstrate Properties \ref{thm:prop-lipschitz-proj} and~\ref{thm:prop-lipschitz-idp}.\qed
+\end{proof}
+
+\begin{lemma}
+  \label{thm:lemma-convex-innerprod}
+  Any $x\in E$ satisfies: $\dotp{x-\proj(x)}{\proj(x)-y} \geq 0 \quad\forall y\in K$.
+\end{lemma}
+
+\begin{proof}
+  Let $x\in E$, $y\in K$ and $\delta=\dotp{x-\proj(x)}{\proj(x)-y}$.
+
+  For $0\leq t\leq 1$ we define $y_t = \proj(x) + t\big(y-\proj(x)\big)$ which is in $K$ since it is convex.
+  Let's consider
+  \begin{equation*}
+    \norm{x-y_t}^2 = \norm{x-\proj(x)}^2 - 2t\dotp{x-\proj(x)}{y-\proj(x)} + t^2\norm{y-\proj(x)}^2
+  \end{equation*}
+  which means that
+  \begin{equation*}
+    \norm{x-y_t}^2 - \dist^2(x) = 2t\delta + o(t).
+  \end{equation*}
+
+  The assumption that $\delta<0$ leads to the following contradiction:
+  in the one hand, these terms are non-negative since since $y_t\in K$ and by the definition \eqref{eq:def-dist-min} of $\dist$;
+  in the other hand, it is negative when $t>0$ in a neighborhood of $0$.
+
+  Hence $\delta\geq 0$.\qed
+\end{proof}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Differentiability}
+
+\begin{lemma}
+  \label{thm:lemma-proj-orthogonal}
+  If $\proj$ is differentiable in $x\in E$, then
+  \begin{equation}
+    \diffs{\proj}{x}^*\big(x-\proj (x)\big)=0
+  \end{equation}
+  where $\diffs{\proj}{x}^*$ is the adjoint of the differential operator of $\proj$ in $x$.
+\end{lemma}
+
+\begin{proof}
+  We want to prove that $\delta=\diffs{\proj}{x}^*(x-y)$ is null, with $y=\proj(x)$.
+
+  Let $y_t = \proj(x-t\delta) \in K$ for $t\in\R$ around $0$.
+  By definition and linearity of the differential operator,
+  \begin{equation*}
+    y_t = y - t \diffs{\proj}{x}(\delta) + \underset{t\rightarrow 0}{o(t)}.
+  \end{equation*}
+  Using the properties of the inner product, we have
+  \begin{eqnarray*}
+    \norm{x-y_t}^2
+      &=& \norm{x-y}^2 + \norm{y-y_t}^2 + 2\dotp{x-y}{y-y_t} \\
+      &=& \dist^2(x) + 2t\dotp{x-y}{\diffs{\proj}{x}(\delta)} + o(t)
+  \end{eqnarray*}
+  and thus, by definition of the adjoint and $\delta$:
+  \begin{equation*}
+    \norm{x-y_t}^2 - \dist^2(x) = 2t\norm{\delta}^2 + \underset{t\rightarrow 0}{o(t)}
+  \end{equation*}
+
+  The assumption that $\delta\neq 0$ leads to the following contradiction:
+  in the one hand, these terms are non-negative since since $y_t\in K$ and by the definition \eqref{eq:def-dist-min} of $\dist$;
+  in the other hand, it is negative when $t<0$ in a neighborhood of $0$.
+
+  Hence $\delta=0$.\qed
+\end{proof}
+
+\begin{theorem}
+  \label{thm:dist-diff}
+  If $\proj$ is differentiable in $x\in E$,
+  then $\dist^2$ is differentiable in $x$ and its gradient is
+  \begin{equation}
+    \label{eq:grad-dist}
+    \nabla\dist^2(x)=2\big(x-\proj(x)\big).
+  \end{equation}
+\end{theorem}
+
+\begin{proof}
+  Using \eqref{eq:def-dist-proj} and the chain rules gives
+  \begin{equation*}
+    \nabla\dist^2(x)=2\big[\id-\diffs{\proj}{x}^*\big]\big(x-\proj(x)\big).
+  \end{equation*}
+  Hence the result using Lemma~\ref{thm:lemma-proj-orthogonal}.\qed
+\end{proof}
+
+\begin{proposition}
+  If $K$ is convex, $\dist^2$ is differentiable on $E$.
+  Its gradient is \eqref{eq:grad-dist}, which is $2$-Lipschitz.
+\end{proposition}
+
+\begin{proof}
+  The Lipschitz property of \eqref{eq:grad-dist} for $K$ convex is straightforward using Proposition~\ref{thm:prop-lipschitz-idp}.
+
+  Given $x\in E$, we need to show that $\dist^2$ is differentiable in $x$ and that it's gradient is \eqref{eq:grad-dist}.
+  Proposition \ref{thm:prop-convex-proj} states that $\proj(x)$ is unique.
+
+  First case: $x=\proj(x)\in K$.
+  Then $\dist^2(x)=0$ and $\dist^2(x+h) \leq \norm{x+h - x}^2 \in o(h)$ since $x\in K$.
+  So $\dist^2(x+h) = \dist^2(x) + o(t)$ which proves that $\nabla\dist^2(x) = 0$ like \eqref{eq:grad-dist} in that case.
+
+  Second case: $x\neq\proj(x)$.
+  Let's write $x - \proj(x) = \lambda u$ with $\lambda > 0$ and $\norm{u}=1$.
+  We denote by $h_u=\dotp{h}{u}$.
+  The squared distance of $x+h$ to $K$ is bounded above by:
+  \begin{equation*}
+    \dist^2(x+h)
+      \leq \norm{x+h - \proj(x)}^2
+      = (\lambda + h_u)^2 + \norm{h - h_u}^2.
+  \end{equation*}
+  It is also bounded below by its projection on $u$:
+  \begin{eqnarray*}
+    \dist(x+h)
+      & =   & \norm{h+x - \proj(x+h)} \\
+      &\geq & h_u + \lambda + \dotp{u}{\proj(x)-\proj(x+h)} \\
+      &\geq & h_u + \lambda
+  \end{eqnarray*}
+  by applying Lemma~\ref{thm:lemma-convex-innerprod}. Note that $h_u+\lambda \geq 0$ when $h\to 0$. \\
+  These lower and upper bounds lead to
+  \begin{equation*}
+    \dist^2(x+h) = \lambda^2 + 2\lambda\dotp{h}{u} + o(h),
+  \end{equation*}
+  showing that $\dist^2$ is differentiable in $x$ and its gradient is $2\lambda u = 2\big(x-\proj(x)\big)$.\qed
+\end{proof}

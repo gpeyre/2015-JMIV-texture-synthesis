@@ -1,0 +1,84 @@
+\appendix
+\section{Appendix: Proofs}
+\label{sec:app-proofs}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Projection on \texorpdfstring{$\cspec$}{the Spectrum Constraint}}
+\label{app:spec-proj}
+
+Here we demonstrate the expression~\eqref{eq:cspec-proj} of the projection of $u$ on $\cspec$.
+The projection is $u_s\in\cspec$ of the form
+  $\hu_s(m) = e^{\ii\phi(m)} \hu_0(m)$.
+Our goal is to minimize
+\begin{equation}
+  \norm{u-u_s}^2 = \sum_m \norm{\hu(m) - e^{\ii\phi(m)}\hu_0(m)}^2
+\end{equation}
+with respect to $\phi$.
+
+As the term of the sum are independent, the problem is to minimize
+\begin{equation}
+  f(\psi) = \norm{x-ye^{\ii\psi}}^2
+\end{equation}
+where $x=\hu(m)$, $y=\hu_0(m)$ and $\psi=\phi(m)$ for any $m$.
+The hermitian product of $x,y \in\C^3$ is denoted by $x\cdot y = \sum_ix_iy_i^* \in\C$
+
+The development of the expression of $f(\psi)$ gives
+\begin{equation*}
+  f(\psi) = \norm{x}^2 - e^{\ii\psi} y\cdot x - e^{-\ii\psi} x\cdot y + \norm{y}^2.
+\end{equation*}
+
+The function $f$ being continuous and $2\pi$-periodic on $\R$, it admits (at least) a minimum and a maximum which are critical points $\psi_c$ satisfying $f'(\psi_c)=0$.
+Let's write $x\cdot y=Ae^{\ii\theta}$ with $A\geq 0$.
+The derivative
+\begin{equation*}
+  f'(\psi) = - \ii e^{\ii\psi} y\cdot x + \ii e^{-\ii\psi} x\cdot y.
+\end{equation*}
+gives
+  $e^{2\ii\psi_c}=e^{2\ii\theta}$
+and the critical points $\psi_c$ are thus characterized by
+  $e^{\ii\psi_c}=\pm e^{\ii\theta}$.
+
+The second derivative
+\begin{equation*}
+  f''(\psi) = e^{\ii\psi} y\cdot x +e ^{-i\psi} x\cdot y.
+\end{equation*}
+provides more information: we know $e^{\ii\theta}$ is a minimum since $f''(e^{\ii\theta})=2A\geq 0$, and $-e^{\ii\theta}$ is a maximum since $f''(-e^{\ii\theta})=-2A\leq 0$.
+
+The case $x\cdot y=0$ leads to $A=0$ and $f$ being constant.
+In other cases, $A>0$: the minimums $\psi_\mathrm{min}$ of the functions are strict and satisfy $e^{\ii\psi_\mathrm{min}}=e^{\ii\theta}=\frac{x\cdot y}{\abs{x\cdot y}}$, hence the expression of $\hu_s(m)$ given in~\eqref{eq:cspec-proj}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Projection on \texorpdfstring{$\cpatch$}{the Patch Constraint}}
+\label{app:patch-proj}
+
+Here is the proof that \eqref{eq:decompo-kn} and~\eqref{eq:decompo-w} are the minimizers of~\eqref{eq:decompo-step}.
+
+Using~\eqref{eq:residual}, the expression~\eqref{eq:decompo-step} is $\norm{R^\el - w D_0 E_{n,k}}^2$.
+Expressing this norm as the sum of the norms of the columns leads to
+\begin{equation}
+  \label{eq:app-decompo-error}
+  \min_{k,n,w} \norm{R^\el_k - w D_n}^2 + \sum_{k'\neq k} \norm{R^\el_{k'}}^2.
+\end{equation}
+
+Let's fix $k$ and $n$.
+The problem
+\begin{equation}
+  \min_w \norm{R^\el_k-wD_n}^2
+\end{equation}
+is now an orthogonal projection.
+Since $D_n$ is normalized, the solution is
+\begin{equation}
+  w^* = \dotp{R^\el_k}{D_n}
+\end{equation}
+as stated in~\eqref{eq:decompo-w} and Pythagora's theorem gives the error
+\begin{equation}
+  \norm{R^\el_k - w^* D_n}^2 = \norm{R^\el_k}^2 - \dotp{R^\el_k}{D_n}^2.
+\end{equation}
+
+Substituting $w$ in~\eqref{eq:app-decompo-error} by its optimal value $w^*$ function of $(k,n)$ simplifies the problem to
+\begin{equation}
+  \min_{k,n} - \dotp{R^\el_k}{D_n}^2 + \sum_{k'} \norm{R^\el_{k'}}^2.
+\end{equation}
+Hence the result~\eqref{eq:residual} stating $(k^*,n^*) = \argmax \abs{\dotp{R^\el_k}{D_n}}$ among the set $\mathcal{I}_{W^\el}$ of admissible $(k,n)$.

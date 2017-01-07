@@ -1,0 +1,154 @@
+\section{Introduction}
+\label{sec:intro}
+
+
+\subsection{Texture Synthesis}
+
+Texture synthesis is the process of generating new texture images from a given image sample.
+Being able to perform such a synthesis is of practical interest both for computer graphics, where it is needed to give a realistic aspect to 3D models, or for image restoration, where it may help the reconstruction of missing parts through inpainting.
+
+One of the most difficult aspect of texture synthesis is the ability to deal with the wide variety of texture images.
+In particular, it is relatively difficult to synthesize textures at all observation scales using a given model.
+Before being more specific in the next section, we can roughly split texture synthesis methods in two groups.
+On the one hand, non-parametric patch-based methods, initiated by the seminal works from Efros and Leung~\cite{efros1999texture} and Wei and Levoy~\cite{wei2000fast}, have proven their efficiency to synthesize highly structured textures, such as brick walls or pebbles seen at a close distance.
+On the other hand, methods relying on statistical constraints, initiated by the work of Heeger and Bergen~\cite{Heeger1995}, provide efficient methods for the synthesis of textures with small scales oscillations, or micro-textures, such as sand or stone.
+
+In this work, we propose to rely on a variational approach to build a synthesis method that allows at the same time for the reconstruction of geometric textures, thanks to the use of sparse, patch-based dictionary, and the reconstruction of small scale oscillations, thanks to constraints on the spectrum of images.
+Before presenting in more details the contributions of this paper, and in order to explain both its inspiration and its originality, we start with a short presentation of previous works in this field.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Previous Works}
+\label{sub:prev-works}
+
+
+\subsubsection{Patch-Based Approaches}
+
+The first methods yielding realistic texture synthesis rely on a Markovian hypothesis: the distribution of a pixel given the rest of the texture only depends on the values in a (small) neighborhood.
+These methods are mostly parametric, following the work in~\cite{cross1983markov}.
+The law of a pixel given its neighborhood is chosen \emph{a priori} and its parameters can be learned from an exemplar using a maximum-likelihood estimation.
+
+Non-parametric approaches~\cite{efros1999texture,wei2000fast} were introduced later to handle different kind of textures without designing the law of each of them by hand.
+For a given pixel, its value is sampled directly from an exemplar image, by seeking pixels whose square neighborhood (called a {\it patch}) is similar to the one of the pixel to be synthesized.
+This approach was a clear breakthrough in the field of texture synthesis, producing results that are visually almost perfect on difficult and structured examples.
+It was followed by a large body of works and many extensions were proposed, to perform real-time~\cite{lefebvre2005parallel}, dynamic, or volumetric texture synthesis, for instance.
+In particular, it is common to sample a small square area (a patch) at a time, instead of a single pixel~\cite{efros2001image}.
+The reader may refer to the state-of-the-art~\cite{Wei2009} for an overview of these approaches applied in different contexts.
+
+One common drawback of these approaches, however, is that the resulting texture is often a plain juxtaposition of small pieces from the exemplar, even when sampling pixels one at a time~\cite{aguerrebere2013exemplar}.
+In this sense they have a limited innovation capacity.
+An efficient way to avoid this drawback is to perform the synthesis from a dictionary of patches that is learned from the exemplar.
+Sparse decomposition methods such as~\cite{elad2006image} are classically applied to image denoising or enhancement.
+They rely on the assumption that each patch of an image can be decomposed as a sum of a small number of elements from a dictionary.
+The dictionary is usually learned from the image to be restored.
+These approaches were introduced in~\cite{olshausen1996natural} as an efficient coding of natural images, inspired by the human vision system.
+More efficient algorithms for dictionary learning were proposed later: for instance the Method of Optimal Direction~(MOD)~\cite{engan1999method}, and the K-SVD algorithm~\cite{aharon2006ksvd}.
+Recently, one author of the present paper has shown that this framework is well suited to texture modeling~\cite{peyre2009sparse}.
+In particular, sparse dictionary learning has the remarkable ability to adaptively extract basic elements, or \emph{textons}, from a texture.
+In~\cite{peyre2009sparse}, it is shown that new texture patches can be created from a learned dictionary, simply by imposing a sparsity constraint on their use of the dictionary atoms.
+
+
+\subsubsection{Statistical Approaches}
+
+Another set of approaches is based on statistical constraints.
+A set of statistics is identified and the synthesis process consists in generating a new image whose selected statistics match those of the original texture.
+The basic principle of the approach is in agreement with early works on texture discrimination~\cite{Julesz1981}, that spotted statistical constraints as a fruitful tool to investigate the human perception of textures.
+
+In 1995, Heeger and Bergen~\cite{Heeger1995} also proposed to rely on some statistical constraints to perform texture synthesis.
+Starting from an exemplar image, a new image is generated by imposing the marginal of wavelet coefficients, separately at each scale and orientation, as well as the image color distribution.
+The resulting method, although limited to relatively weakly structured textures, has the ability to produce realistic results in a computationally efficient manner.
+Later, it has been proposed~\cite{portilla2000parametric} to impose some second order statistics on wavelet coefficients.
+More precisely, the constraints are based on the correlations between coefficients of atoms that are neighbor, either at a given scale or across scales.
+This allows for a better preservation of structured textures.
+To the best of our knowledge, this relatively old method is the one permitting to synthesize the largest class of textures, without simply copy-pasting pieces from an exemplar.
+
+In a different direction, one may synthesize a texture by imposing constraints on its Fourier transform.
+In~\cite{galerne2011random}, it is shown that an efficient synthesis method is achieved by imposing the spectrum of synthesized images, through {\it random phase} textures.
+The resulting synthesis is fast and reliable, but limited to non-structured textures with small scales oscillations.
+Several works have extended this approach, either simplifying the reference from which the synthesis is performed~\cite{desolneux2012compact,galerne2012gabor} or developing video-texture synthesis methods~\cite{xia2012compact}.
+
+In the field of computer graphics, procedural noises are widely used to yield a realistic aspect for materials.
+Contrary to other methods, a procedural noise is generated on-the-fly in any point of $\R^n$, and thus has a very low memory requirement and can be evaluated at any scales with any resolution.
+The Perlin noise~\cite{perlin1985image} is the most classical example of such a noise.
+It is obtained as a linear combination of colored noises at different scales, resulting in a multi-scale noise whose spectrum is controlled by the weights of the combination.
+Sparse convolutive noise is another class of procedural noise, defined as the convolution of a compact kernel with a sparse convolution map.
+The Gabor noise is a particular case, using Gabor kernels: the distribution of scales and frequencies of the kernels can be either imposed by hand~\cite{lagae2009procedural} or learned from a sample texture~\cite{galerne2012gabor}.
+The state-of-the-art~\cite{lagae2010state} provides a complete review of procedural noise functions.
+
+
+\subsubsection{Variational Formulation for Texture Synthesis}
+
+In this work, we advocate a generic variational approach to texture synthesis, as presented in detail in Sect.~\ref{sec:variational}.
+This is not the first such approach in the context of texture manipulations.
+Previous variational approaches aim at transferring the texture of an image onto the content of another image.
+The functional to be minimized take into account both the fidelity to the texture image and the fidelity to the content image.
+The method presented in~\cite{kwatra2005texture} optimizes an image so that all its patches look similar to a texture given as an example.
+The transfer method~\cite{ramanarayanan2007constrained} generates an image $A'$ following the description: ``$A'$ must be to $A$ what $B'$ is to $B$''.
+% The image $B'$ is a texture image and the images $A$ and $B$ are content or label images.
+% The functional to be minimized measure how close $A'$ is close to $B'$ in the pixel where $A$ is close to $B$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Contributions of the Paper}
+\label{sub:approach}
+
+In this paper, we introduce a generic texture synthesis me\-thod that is both suited to highly structured textures and textures that exhibit small scale oscillations.
+% The proposed approach also has the ability to truly synthesize new textures, without performing piecewise copy of the exemplar.
+
+First, we rely on adaptive sparse dictionary for the synthesis, following the ideas presented in~\cite{peyre2009sparse}.
+As in this this original approach, we impose a sparsity constraint on a decomposition of the patches into a dictionary.
+In addition, we also impose that atoms from the dictionary are used in the same proportions as in the original texture samples.
+This allows for a faithful reproduction of the structured parts (ed\-ges, corners, etc.) of the input texture.
+Second, we impose spectrum constraints on the synthesis, in the manner of~\cite{galerne2011random}.
+This allows for the reproduction of high frequency components of the texture, but also, more surprisingly, for the low frequency regularity of the texture, as demonstrated in the experimental section.
+We also impose a constraint on the global color content of the image, that has a strong visual impact on the results.
+In order to combine the strength of the adaptive patch dictionary to reproduce geometry and the fidelity of frequency reproduction offered by spectrum constraints, we rely on a variational approach.
+Each constraint is enforced by controlling the distance of the synthesis to a set of compatible images.
+The minimization of the corresponding energy is performed using an averaged projections method.
+The approach is compared to the more classical alternating projection method proposed in~\cite{portilla2000parametric}, and the benefit of the proposed constraints is demonstrated.
+The resulting synthesis approach achieves, to the best of our knowledge, the best results obtained so far that truly generate a new texture without performing copy-pasting of the input.
+Another interesting asset of the proposed approach is that it only relies on first order statistical constraints between atoms from a dictionary.
+On the contrary, methods relying on a fixed dictionary necessitates second order statistics to synthesize structured textures~\cite{portilla2000parametric}.
+This somehow accredits the second psychophysical theory proposed by B.~Julesz~\cite{Julesz1981}, stating that texture discrimination is related to first order statistics between {\it textons}.
+Observe nevertheless that the synthesis also relies on second order statistics between pixel values (through the power spectrum), the\-re\-fore establishing a link between Julesz first~\cite{julesz1962visual} and second~\cite{Julesz1981} theory for texture discrimination.
+
+The plan of the paper is as follows.
+We define in Sect.~\ref{sec:variational} the energy function whose minimization leads our synthesis method and present in details the three constraints we impose for the synthesis:  on the histogram, on the spectrum, and on the sparse decomposition of image patches.
+We then propose in Sect.~\ref{sec:framework} an algorithm to find a critical point of this energy function.
+Numerical results are shown, parameters are discussed and comparisons with the state of the art are provided in Sect.~\ref{sec:results}.
+Preliminary results of our work were presented in the conference paper~\cite{tartavel2013constrained}.
+More results can be found at: \\
+  {\small\url{http://perso.enst.fr/~tartavel/research/jmiv14.html}}, \\
+and the Matlab code used for the experiments is publicly available at: \\
+  {\small\url{https://bitbucket.org/gtartavel/variational_synthesis}}.
+
+% \rednote[Warning]{These url may change.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Notations}
+\label{sub:notations}
+
+A matrix $A=(A_j^i)_{i,j}$ is made of columns $A_j$ and rows $A^i$.
+The $\ell^0$ pseudo-norm of a vector $b$ is $\norm{b}_0 = \#\setof{i\suchthat b_i\neq 0}$.
+
+The indicator function $\indic{}$ of a set $\constr{}$ is equal to $0$ on $\constr{}$ and $+\infty$ outside.
+The distance of a point $x\in\R^m$ to a compact set $\constr{}$ is $\dist(x,\constr{}) = \min_{y\in\constr{}} \norm{x-y}$ and a projection $\proj_\constr{}(x)$ of $x$ on $\constr{}$ is a minimizer of this distance.
+
+The orthogonal discrete Fourier transform of an image $u$ defined on a rectangular domain $\Omega\subset\Z^2$ of size $M_1\times M_2$ is the image $\hu$ made of the coefficients
+\begin{equation}
+  \label{eq:dft}
+  \hu(m) = \frac{1}{\sqrt{M_1 M_2}} \sum_{x\in\Omega} u(x) \;
+    \exp\Big\{ -2\ii\pi \big(\frac{x_1 m_1}{M_1} + \frac{x_2 m_2}{M_2}\big) \Big\}.
+\end{equation}
+
+The patches of size $\tau\times\tau$ in $u$ are defined as
+\begin{equation}
+  p_k = \big( u(x_k+t) \big)_t
+    \quad\text{for}\quad
+  t\in\setof{0,\dots,\tau-1}^2.
+\end{equation}
+Their locations $x_k$ lie on a regular grid $x_k\in\Delta\Z^2$ of step $\Delta>0$.
+We denote by $\Pi(u) = \big(p_k\big)_k \in\R^{L\times K}$ the matrix, made of the $K$ patches of $u$, where $L=d\tau^2$ is their dimension, with $d=1$ for gray images and $d=3$ for color.
+The adjoint operator of $\Pi$ is denoted by $\Pi^*$.
+% We define $Z=\lceil\frac{\tau}{\Delta}\rceil^2$ which satisfies $\norm{\Pi}^2_{2,2}\leq Z$.
